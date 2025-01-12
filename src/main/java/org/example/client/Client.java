@@ -30,12 +30,9 @@ public class Client implements Runnable{
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
 
-    //the thread used to listen for messages from the server
-    private Thread listenerThread;
-
     //handlers for the different types of messages
-    private Queue<MessageSenderPair> messageQueue = new LinkedList<>();
-    private List<MessageHandler> messageHandlers =  new ArrayList<>();
+    private final Queue<MessageSenderPair> messageQueue = new LinkedList<>();
+    private final List<MessageHandler> messageHandlers =  new ArrayList<>();
 
     public ClientCallbacksHandler clientCallbacksHandler= new ClientCallbacksHandler();
 
@@ -70,7 +67,8 @@ public class Client implements Runnable{
             oos = new ObjectOutputStream(socket.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
 
-            listenerThread = new Thread(this);
+            //the thread used to listen for messages from the server
+            Thread listenerThread = new Thread(this);
             listenerThread.start();
 
             clientCallbacksHandler.onConnect();
@@ -128,7 +126,7 @@ public class Client implements Runnable{
     {
         if(socket == null)
             return;
-        if(socket.isConnected() == false)
+        if(!socket.isConnected())
             return;
         try
         {

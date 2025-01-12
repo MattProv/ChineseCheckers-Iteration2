@@ -6,5 +6,7 @@ public enum MessageType
     DISCONNECT,
     MOVE,
     COMMAND,
-    GAMESTATE
+    GAMESTATE,
+    USERNAME,
+    USERLIST
 }

@@ -2,7 +2,7 @@ package org.example.server;
 
 import org.example.message.Message;
 
-public final class ServerCallbacksHandler {
+public class ServerCallbacksHandler {
 
     public void onNewConnection(final ServerConnection connection) {
         System.out.println("User connected: " + connection);

@@ -23,7 +23,7 @@ public final class Server {
     private final Queue<MessageSenderPair> messageQueue = new LinkedList<>();
     private final List<ServerConnection> connections = new ArrayList<>();
 
-    private final ServerCallbacksHandler serverCallbacksHandler = new ServerCallbacksHandler();
+    public ServerCallbacksHandler serverCallbacksHandler = new ServerCallbacksHandler();
 
     private boolean running = false;
 

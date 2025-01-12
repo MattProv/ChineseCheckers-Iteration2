@@ -4,12 +4,15 @@ import org.example.Board;
 import org.example.GameState;
 import org.example.Player;
 import org.example.message.GameStateMessage;
+import org.example.message.UserlistMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class GameManager {
     private static GameManager instance = new GameManager();
+    //LOBBY
+    private final List<User> lobby = new ArrayList<User>();
     //SETTINGS
     private int playerCount = 2;
 
@@ -108,5 +111,35 @@ public final class GameManager {
         GameStateMessage gsm = new GameStateMessage(gameState.clone());
         gsm.getGameState().getBoard().showBoard();
         Server.getServer().Broadcast(gsm);
+    }
+
+    public void synchronizeUsers()
+    {
+        System.out.println("Synchronizing users.");
+        List<String> usernames = new ArrayList<String>();
+        for(User user : lobby)
+        {
+            usernames.add(user.getUsername());
+        }
+        String[] usernamesArray = new String[usernames.size()];
+        usernamesArray = usernames.toArray(usernamesArray);
+        Server.getServer().Broadcast(new UserlistMessage(usernamesArray));
+    }
+
+    public void addUser(final User user)
+    {
+        lobby.add(user);
+    }
+
+    public void removeUser(ServerConnection sc)
+    {
+        for(User user : lobby)
+        {
+            if(user.getConnection() == sc)
+            {
+                lobby.remove(user);
+                return;
+            }
+        }
     }
 }

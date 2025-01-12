@@ -10,6 +10,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.example.Config;
 
+import java.util.Objects;
+
 public class LoginScreen extends BorderPane {
 
     public abstract static class CallbacksHandler {
@@ -109,7 +111,9 @@ public class LoginScreen extends BorderPane {
 
         VBox vbox = new VBox();
         vbox.getChildren().addAll(gridPane, connectButton);
-        vbox.setAlignment(Pos.CENTER);
+        vbox.setAlignment(Pos.TOP_CENTER);
+
+        getStylesheets().add(Objects.requireNonNull(getClass().getResource("/loginstyles.css")).toExternalForm());
 
         this.setCenter(vbox);
 

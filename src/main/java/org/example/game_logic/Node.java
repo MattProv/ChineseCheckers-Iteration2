@@ -7,8 +7,8 @@ public class Node implements Serializable {
     private List<Node> neighbours;
     private int[] coordinates = new int[2];
     private boolean isOccupied;
-    private Pawn occupant;
-    private Agent BaseOwner;
+    //private Pawn occupant;
+    private int baseId = -1;
 
     public Node(int xCoordinate, int yCoordinate) {
         this.coordinates[0] = xCoordinate;
@@ -16,27 +16,36 @@ public class Node implements Serializable {
         isOccupied = false;
     }
 
-    public Node(int xCoordinate, int yCoordinate, Agent BaseOwner) {
+    public Node(int xCoordinate, int yCoordinate, int baseId) {
         this.coordinates[0] = xCoordinate;
         this.coordinates[1] = yCoordinate;
-        this.BaseOwner = BaseOwner;
+        this.baseId = baseId;
+    }
+
+    public void assignBase(int baseId) {
+        if (this.baseId != -1) {
+            System.out.println("Attempted to reassign a base ID: node already assigned base id: " + this.baseId);
+            return;
+        }
+        else
+            this.baseId = baseId;
     }
 
     public boolean getIsOccupied() {
         return isOccupied;
     }
 
-    public void setOccupied(Pawn occupant) {
+    public void setOccupied() {
         this.isOccupied = true;
-        this.occupant = occupant;
+        //this.occupant = occupant;
     }
 
     public void setUnoccupied(Pawn occupant) {
-        if (this.occupant != occupant) {
-            System.out.println("Pawn tried to free a node that wasn't occupied by it!");
-        }
+        //if (this.occupant != occupant) {
+        //    System.out.println("Pawn tried to free a node that wasn't occupied by it!");
+        //}
         this.isOccupied = false;
-        this.occupant = null;
+        //this.occupant = null;
     }
 
     public void addNeighbour(Node neighbour) {
@@ -56,7 +65,14 @@ public class Node implements Serializable {
         return false;
     }
 
-    public Agent getBaseOwner() {
-        return BaseOwner;
+    public int getBaseId() {
+        return baseId;
+    }
+
+    public int getXCoordinate() {
+        return coordinates[0];
+    }
+    public int getYCoordinate() {
+        return coordinates[1];
     }
 }

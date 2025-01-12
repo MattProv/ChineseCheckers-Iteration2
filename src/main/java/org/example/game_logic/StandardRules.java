@@ -33,6 +33,11 @@ public class StandardRules implements Rules<StandardBoard> {
     }
 
     @Override
+    public StandardBoard setupBoard(StandardBoard board) {
+        return null;
+    }
+
+    @Override
     public boolean validateMove(StandardBoard board, Pawn pawn, Move move) {
         // A pawn can't leave it's base after it enters it
         if (pawn.isBaseLocked())

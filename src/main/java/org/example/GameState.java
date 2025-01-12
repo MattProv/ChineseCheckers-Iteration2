@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.game_logic.Board;
+import org.example.game_logic.StandardBoard;
+
 import java.io.Serializable;
 
 public final class GameState implements Serializable, Cloneable {
@@ -43,7 +46,7 @@ public final class GameState implements Serializable, Cloneable {
     public GameState clone() {
         try {
             GameState cloned = (GameState) super.clone();
-            cloned.board = (TestBoard) this.board.clone(); // Klonujemy Board
+            cloned.board = (StandardBoard) this.board.clone(); // Klonujemy Board
             return cloned;
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();

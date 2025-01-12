@@ -1,8 +1,9 @@
-package org.example;
+package org.example.game_logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public final class TestBoard extends Board {
+public final class StandardBoard extends Board implements Serializable {
     private static final long serialVersionUID = 1L; // Opcjonalne, ale zalecane
 
     private ArrayList<String> moves = new ArrayList<>();
@@ -11,6 +12,11 @@ public final class TestBoard extends Board {
     @Override
     public void generateBoard() {
         moves.clear();
+    }
+
+    @Override
+    public void defineBases() {
+        return;
     }
 
     @Override
@@ -31,8 +37,8 @@ public final class TestBoard extends Board {
     }
 
     @Override
-    public TestBoard clone() throws CloneNotSupportedException {
-        TestBoard cloned = (TestBoard) super.clone();
+    public StandardBoard clone() throws CloneNotSupportedException {
+        StandardBoard cloned = (StandardBoard) super.clone();
         cloned.moves = new ArrayList<>(this.moves); // kopiujemy listę
         cloned.lastMove = this.lastMove; // kopiujemy ostatni ruch
         return cloned;

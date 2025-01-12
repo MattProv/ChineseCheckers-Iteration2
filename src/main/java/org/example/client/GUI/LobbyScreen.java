@@ -53,7 +53,7 @@ public class LobbyScreen extends BorderPane {
         Label playerCountLabel = new Label("Player count");
         TextField playerCountField = new TextField();
         playerCountField.setPromptText("Enter player count");
-        Button updatePlayerCountButton = new Button("Update player count");
+        Button updatePlayerCountButton = new Button("Update");
         updatePlayerCountButton.setOnAction(e -> {
             try {
                 int playerCount = Integer.parseInt(playerCountField.getText());
@@ -75,6 +75,7 @@ public class LobbyScreen extends BorderPane {
 
         VBox optionsWrapper = new VBox(options, startGameButton, leaveGameButton);
         optionsWrapper.setAlignment(Pos.TOP_CENTER);
+        optionsWrapper.setSpacing(10);
 
         //server message
         serverMessage = new Label();

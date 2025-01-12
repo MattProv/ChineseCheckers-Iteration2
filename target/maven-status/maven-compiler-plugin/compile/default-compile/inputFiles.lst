@@ -2,6 +2,7 @@ C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\Board.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\Client.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\ClientCallbacksHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\CommandProcessor.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\GUI\GameScreen.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\GUI\LobbyScreen.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\GUI\LoginScreen.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\ClientMain.java
@@ -9,6 +10,7 @@ C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\ClientMain
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\Config.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\GameState.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\EchoMessageHandler.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\GameStateMessageGUIHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\GameStateMessageHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\StringMessageGUIHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\UserlistMessageHandler.java

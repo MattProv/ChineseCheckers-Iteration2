@@ -1,10 +1,14 @@
+org\example\ClientMainGUI$ScreenType.class
+org\example\client\GUI\GameScreen.class
 org\example\ClientMainGUI$3.class
 org\example\message\serverHandlers\CommandMessageHandler$1.class
 org\example\client\GUI\LoginScreen.class
 org\example\client\GUI\LobbyScreen$CallbacksHandler.class
 org\example\ClientMainGUI$4.class
+org\example\message\clientHandlers\GameStateMessageGUIHandler.class
 org\example\ClientMainGUI$1.class
 org\example\message\clientHandlers\StringMessageGUIHandler.class
 org\example\client\GUI\LoginScreen$CallbacksHandler.class
+org\example\ClientMainGUI$5.class
 org\example\ClientMainGUI$2.class
 org\example\ClientMainGUI.class

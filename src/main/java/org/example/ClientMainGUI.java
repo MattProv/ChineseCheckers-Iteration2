@@ -2,36 +2,34 @@ package org.example;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.example.client.Client;
 import org.example.client.ClientCallbacksHandler;
+import org.example.client.GUI.GameScreen;
 import org.example.client.GUI.LobbyScreen;
 import org.example.client.GUI.LoginScreen;
-import org.example.message.CommandMessage;
-import org.example.message.Commands;
-import org.example.message.clientHandlers.GameStateMessageHandler;
+import org.example.message.*;
+import org.example.message.clientHandlers.GameStateMessageGUIHandler;
 import org.example.message.clientHandlers.StringMessageGUIHandler;
 import org.example.message.clientHandlers.UserlistMessageHandler;
 
-import java.util.Objects;
-
 public class ClientMainGUI extends Application {
-    void showError(String message) {
-        Dialog<String> alertDialog = new Dialog<>();
 
-        ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-        alertDialog.getDialogPane().getButtonTypes().add(okButton);
-
-        alertDialog.setTitle("Information");
-        alertDialog.setContentText(message);
-        alertDialog.showAndWait();
+    private enum ScreenType{
+        LOGIN,
+        LOBBY,
+        GAME
     }
+
+    private ScreenType screenLoaded = ScreenType.LOGIN;
+    private Scene loginScene;
+    private Scene lobbyScene;
+    private Scene gameScene;
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -40,20 +38,23 @@ public class ClientMainGUI extends Application {
         GameState gameState = new GameState();
 
         primaryStage.setMinHeight(400);
-        primaryStage.setMinWidth(400);
+        primaryStage.setMinWidth(500);
 
         LoginScreen loginScreen = new LoginScreen();
-        Scene loginScene = new Scene(loginScreen, 400, 400);
+        loginScene = new Scene(loginScreen, 500, 400);
 
         LobbyScreen lobbyScreen = new LobbyScreen();
-        Scene secondScreen = new Scene(lobbyScreen, 400, 400);
+        lobbyScene = new Scene(lobbyScreen, 500, 400);
+
+        GameScreen gameScreen = new GameScreen(gameState);
+        gameScene = new Scene(gameScreen, 500, 400);
 
         loginScreen.setCallbacksHandler(new LoginScreen.CallbacksHandler() {
             @Override
             public void onConnect(String username, String host, int port) {
                 if (client.Connect(host, port)) {
                     client.send(new org.example.message.UsernameMessage(username));
-                    primaryStage.setScene(secondScreen);
+                    setScene(ScreenType.LOBBY, primaryStage);
                 } else {
                     showError("Failed to connect to the server.");
                 }
@@ -62,7 +63,7 @@ public class ClientMainGUI extends Application {
             @Override
             public void onError(String message)
             {
-                Platform.runLater(() -> showError(message));
+                showError(message);
             }
         });
 
@@ -84,7 +85,7 @@ public class ClientMainGUI extends Application {
 
             @Override
             public void onError(String message) {
-                Platform.runLater(() -> showError(message));
+                showError(message);
             }
         });
 
@@ -92,30 +93,34 @@ public class ClientMainGUI extends Application {
             @Override
             public void onDisconnect() {
                 System.out.println("Disconnected");
-                Platform.runLater(() -> primaryStage.setScene(loginScene));
+                setScene(ScreenType.LOGIN, primaryStage);
             }
 
             @Override
             public void onSocketError() {
                 System.out.println("Error: Received a null message.");
-                Platform.runLater(() -> {
-                    showError("Disconnected from the server.");
-                    primaryStage.setScene(loginScene);
-                });
+                showError("Error: Received a null message.");
+                setScene(ScreenType.LOGIN, primaryStage);
             }
         };
-        client.AddHandler(new GameStateMessageHandler(gameState));
+        client.AddHandler(new GameStateMessageGUIHandler(gameState, gameScreen));
         client.AddHandler(new UserlistMessageHandler(lobbyScreen));
         client.AddHandler(new StringMessageGUIHandler(lobbyScreen));
-
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+        client.AddHandler(new MessageHandler(MessageType.GAMESTATE) {
             @Override
-            public void handle(WindowEvent t) {
-                client.Disconnect();
-
-                Platform.exit();
-                System.exit(0);
+            public void handle(MessageSenderPair message) {
+                GameStateMessage gameStateMessage = (GameStateMessage) message.getMessage();
+                if(gameStateMessage.getGameState().isRunning() && screenLoaded != ScreenType.GAME) {
+                    setScene(ScreenType.GAME, primaryStage);
+                }
             }
+        });
+
+        primaryStage.setOnCloseRequest(_ -> {
+            client.Disconnect();
+
+            Platform.exit();
+            System.exit(0);
         });
 
         primaryStage.setScene(loginScene);
@@ -125,5 +130,33 @@ public class ClientMainGUI extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    void showError(String message) {
+        Platform.runLater(() -> {
+            Dialog<String> alertDialog = new Dialog<>();
+
+            ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+            alertDialog.getDialogPane().getButtonTypes().add(okButton);
+
+            alertDialog.setTitle("Error");
+            alertDialog.setContentText(message);
+            alertDialog.showAndWait();
+        });
+    }
+
+    void setScene(ScreenType screenType, Stage primaryStage) {
+        switch (screenType) {
+            case LOGIN:
+                Platform.runLater(() -> primaryStage.setScene(loginScene));
+                break;
+            case LOBBY:
+                Platform.runLater(() -> primaryStage.setScene(lobbyScene));
+                break;
+            case GAME:
+                Platform.runLater(() -> primaryStage.setScene(gameScene));
+                break;
+        }
+        screenLoaded = screenType;
     }
 }

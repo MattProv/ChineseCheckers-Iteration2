@@ -1,7 +1,7 @@
 package org.example;
 
 public class Config {
-    private Config() {}
+    public static final int PORT = 8045;
 
-    static int PORT = 8045;
+    private Config() {}
 }

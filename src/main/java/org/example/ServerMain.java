@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.game_logic.StandardBoard;
 import org.example.message.serverHandlers.CommandMessageHandler;
 import org.example.message.serverHandlers.MoveMessageHandler;
 import org.example.message.serverHandlers.UsernameMessageHandler;
@@ -14,7 +15,7 @@ public class ServerMain {
         System.out.println("Hello World from Server!");
 
         GameManager gameManager = GameManager.create();
-        gameManager.setBoard(new TestBoard());
+        gameManager.setBoard(new StandardBoard());
 
         Server server = Server.create();
         server.serverCallbacksHandler = new ServerCallbacksHandler() {

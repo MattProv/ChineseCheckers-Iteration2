@@ -1,8 +1,10 @@
 package org.example.server;
 
-import org.example.Board;
+import org.example.game_logic.Agent;
+import org.example.game_logic.Board;
 import org.example.GameState;
 import org.example.Player;
+import org.example.game_logic.Rules;
 import org.example.message.GameStateMessage;
 import org.example.message.UserlistMessage;
 
@@ -19,12 +21,17 @@ public final class GameManager {
     //RUNTIME
     private final GameState gameState = new GameState();
     private final List<Player> players = new ArrayList<Player>();
-
+    private List<Agent> agents = new ArrayList<>();
+    private Rules ruleset;
     private final GameManagerCallbackHandler gameManagerCallbackHandler = new GameManagerCallbackHandler();
 
     private GameManager()
     {
 
+    }
+
+    public <T extends Rules> void setRuleset(T ruleset) {
+        this.ruleset = ruleset;
     }
 
     public static GameManager create()
@@ -55,6 +62,8 @@ public final class GameManager {
         }
 
         gameState.getBoard().generateBoard();
+        gameState.getBoard().defineBases();
+        this.ruleset.assignBasesToAgents(gameState.getBoard(), agents);
         gameState.setRunning(true);
 
         synchronizeBoard();

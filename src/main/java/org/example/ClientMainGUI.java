@@ -61,9 +61,7 @@ public class ClientMainGUI extends Application {
             @Override
             public void onDisconnect() {
                 System.out.println("Disconnected");
-                Platform.runLater(() -> {
-                    primaryStage.setScene(loginScene);
-                });
+                Platform.runLater(() -> primaryStage.setScene(loginScene));
             }
 
             @Override

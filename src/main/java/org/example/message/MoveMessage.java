@@ -1,32 +1,36 @@
 package org.example.message;
 
+import org.example.game_logic.Move;
+import org.example.game_logic.Node;
+import org.example.game_logic.Pawn;
+
 import java.util.Arrays;
 
 public class MoveMessage extends Message {
-    private final String[] message; // the message content
+    private final String message; // the message content
 
-    public MoveMessage(final String start, final String end)
+    public MoveMessage(String startX, String startY, String endX, String endY)
     {
         super(MessageType.MOVE);
-        this.message = new String[]{start, end};
+        this.message = startX + " " + startY + " " + endX + " " + endY;
     }
 
 
-    public String[] getMessage()
+    public String getMessage()
     {
         return this.message;
     }
 
     public String toString()
     {
-        return Arrays.toString(message);
+        return Arrays.toString(new String[] {this.message.toString()});
     }
 
     public String getStart() {
-        return message[0];
+        return message.split(" ")[0] + " " + message.split(" ")[1];
     }
 
     public String getEnd() {
-        return message[1];
+        return message.split(" ")[2] + " " + message.split(" ")[3];
     }
 }

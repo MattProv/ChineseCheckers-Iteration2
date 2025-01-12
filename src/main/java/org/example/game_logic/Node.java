@@ -49,7 +49,9 @@ public class Node implements Serializable {
     }
 
     public void addNeighbour(Node neighbour) {
-        neighbours.add(neighbour);
+        if (neighbour != null) {
+            neighbours.add(neighbour);
+        }
     }
 
     public List<Node> getNeighbours() {
@@ -74,5 +76,9 @@ public class Node implements Serializable {
     }
     public int getYCoordinate() {
         return coordinates[1];
+    }
+
+    public String printCoordinates() {
+        return "(" + coordinates[0] + "," + coordinates[1] + ")";
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface Rules<T extends Board> {
     boolean validatePlayerCount(int playerCount);
-    boolean validateMove(T board, Pawn pawn, Move move);
+    boolean validateMove(T board, Move move);
     default boolean checkWinCondition(Agent agent) {
         for (Pawn pawn : agent.getPawns()) {
             if (!pawn.isBaseLocked())
@@ -15,5 +15,5 @@ public interface Rules<T extends Board> {
         return true;
     }
     void assignBasesToAgents(T board, List<Agent> agents);
-    T setupBoard(T board);
+    T setupBoard(T board, List<Agent> agents);
 }

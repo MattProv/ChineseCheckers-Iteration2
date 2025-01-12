@@ -6,12 +6,13 @@ import java.util.ArrayList;
 public final class StandardBoard extends Board implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L; // Opcjonalne, ale zalecane
 
-    private ArrayList<String> moves = new ArrayList<>();
+    private ArrayList<Move> moves = new ArrayList<>();
     private String lastMove = null;
 
     @Override
     public void generateBoard() {
         moves.clear();
+        // Creating the field
         this.addNode(12, 0);
         this.addNode(11, 1); this.addNode(13, 1);
         for (int i = 10; i<=14; i+=2)
@@ -120,19 +121,19 @@ public final class StandardBoard extends Board implements Serializable, Cloneabl
     }
 
     @Override
-    public void move(final String start, final String end) {
-        String mv = start + " -> " + end;
-        moves.add(mv);
+    public void move(final Move move) {
+        String mv = move.getStart() + " -> " + move.getEnd();
+        moves.add(move);
         lastMove = mv;
-        System.out.println("Move " + start + " to " + end);
+        System.out.println("Move " + move.getStart() + " to " + move.getEnd());
     }
 
     @Override
     public void showBoard() {
         System.out.println("Last move: " + lastMove);
         System.out.println("MOVES:");
-        for (String move : moves) {
-            System.out.println(move);
+        for (Move move : moves) {
+            System.out.println("Move " + move.getStart() + " to " + move.getEnd());
         }
     }
 

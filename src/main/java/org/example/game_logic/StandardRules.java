@@ -65,10 +65,4 @@ public class StandardRules implements Rules<StandardBoard> {
         return false;
     }
 
-    @Override
-    public StandardBoard setupBoard(StandardBoard board, List<Agent> Agents) {
-        //TODO(Wiktor): Implement after implementing the map
-        return board;
-    }
-
 }

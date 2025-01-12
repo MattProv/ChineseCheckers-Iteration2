@@ -22,4 +22,8 @@ public class ClientCallbacksHandler {
     public void onMessageSent(Message message) {
         System.out.println("Message sent: " + message.getType().name() + " " + message);
     }
+
+    public void onSocketError() {
+        System.out.println("Error: Received a null message.");
+    }
 }

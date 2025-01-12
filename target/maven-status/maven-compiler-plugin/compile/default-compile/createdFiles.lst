@@ -2,4 +2,5 @@ org\example\ClientMainGUI$1.class
 org\example\client\GUI\LoginScreen$CallbacksHandler.class
 org\example\message\serverHandlers\CommandMessageHandler$1.class
 org\example\client\GUI\LoginScreen.class
+org\example\ClientMainGUI$2.class
 org\example\ClientMainGUI.class

@@ -1,9 +1,12 @@
 package org.example.client.GUI;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.example.Config;
 
@@ -38,16 +41,17 @@ public class LoginScreen extends BorderPane {
     public LoginScreen() {
         super();
 
-        VBox centerColumn = new VBox();
+        GridPane gridPane = new GridPane();
 
-        Label helloWorld = new Label("Hello, World!");
-
+        Label usernameLabel = new Label("Username");
         TextField usernameTextField = new TextField();
         usernameTextField.setPromptText("Enter your username");
 
+        Label ipLabel = new Label("Server IP");
         TextField ipTextField = new TextField();
         ipTextField.setPromptText("Enter server IP");
 
+        Label portLabel = new Label("Server Port");
         TextField portTextField = new TextField();
         portTextField.setPromptText("Enter server port");
         portTextField.setText(Integer.toString(Config.PORT));
@@ -90,9 +94,25 @@ public class LoginScreen extends BorderPane {
             callbacksHandler.onConnect(username, ip, port);
         });
 
-        centerColumn.getChildren().addAll(helloWorld, usernameTextField, ipTextField, portTextField, connectButton);
+        gridPane.setMinSize(300, 300);
+        gridPane.setVgap(5);
+        gridPane.setHgap(5);
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
+        gridPane.setAlignment(Pos.CENTER);
 
-        setCenter(centerColumn);
+        gridPane.add(usernameLabel, 0, 0);
+        gridPane.add(usernameTextField, 1, 0);
+        gridPane.add(ipLabel, 0, 1);
+        gridPane.add(ipTextField, 1, 1);
+        gridPane.add(portLabel, 0, 2);
+        gridPane.add(portTextField, 1, 2);
+
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(gridPane, connectButton);
+        vbox.setAlignment(Pos.CENTER);
+
+        this.setCenter(vbox);
+
     }
 
     public void setCallbacksHandler(CallbacksHandler callbacksHandler)

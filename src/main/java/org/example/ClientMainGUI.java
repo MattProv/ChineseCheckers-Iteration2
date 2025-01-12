@@ -9,7 +9,10 @@ import javafx.scene.control.Dialog;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.example.client.Client;
+import org.example.client.ClientCallbacksHandler;
 import org.example.client.GUI.LoginScreen;
+
+import java.util.Objects;
 
 public class ClientMainGUI extends Application {
     void showError(String message) {
@@ -28,7 +31,13 @@ public class ClientMainGUI extends Application {
 
         Client client = Client.create();
 
+        primaryStage.setMinHeight(400);
+        primaryStage.setMinWidth(400);
+
         LoginScreen loginScreen = new LoginScreen();
+        Scene loginScene = new Scene(loginScreen, 400, 400);
+        loginScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm());
+
         Scene secondScreen = new Scene(new BorderPane(), 300, 250);
 
         loginScreen.setCallbacksHandler(new LoginScreen.CallbacksHandler() {
@@ -48,10 +57,26 @@ public class ClientMainGUI extends Application {
             }
         });
 
+        client.clientCallbacksHandler = new ClientCallbacksHandler() {
+            @Override
+            public void onDisconnect() {
+                System.out.println("Disconnected");
+                Platform.runLater(() -> {
+                    primaryStage.setScene(loginScene);
+                });
+            }
 
-        Scene scene = new Scene(loginScreen, 300, 250);
+            @Override
+            public void onSocketError() {
+                System.out.println("Error: Received a null message.");
+                Platform.runLater(() -> {
+                    showError("Disconnected from the server.");
+                    primaryStage.setScene(loginScene);
+                });
+            }
+        };
 
-        primaryStage.setScene(scene);
+        primaryStage.setScene(loginScene);
         primaryStage.setTitle("Chinese Checkers!");
         primaryStage.show();
     }

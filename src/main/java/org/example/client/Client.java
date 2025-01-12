@@ -73,6 +73,8 @@ public class Client implements Runnable{
             listenerThread = new Thread(this);
             listenerThread.start();
 
+            clientCallbacksHandler.onConnect();
+
             return true;
         }
         catch (UnknownHostException ex)
@@ -103,8 +105,9 @@ public class Client implements Runnable{
                 msg = read();
                 AddMessageToQueue(msg);
             }
-        } catch (NullPointerException ex) {
-            System.out.println("Error: Received a null message.");
+        } catch (Exception ex) {
+            System.out.println("Error: socket error.");
+            clientCallbacksHandler.onSocketError();
         } finally {
             // Ensure socket is properly closed
             if (socket != null) {

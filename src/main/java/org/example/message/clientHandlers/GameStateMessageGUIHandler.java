@@ -23,6 +23,7 @@ public class GameStateMessageGUIHandler extends MessageHandler {
         GameStateMessage bm = (GameStateMessage) message.getMessage();
 
         gameState.setState(bm.getGameState());
-        gameScreen.updateGameState();
+        gameScreen.updateBoard();
+        gameScreen.updatePlayerList(bm.getPlayers(), bm.getTurn());
     }
 }

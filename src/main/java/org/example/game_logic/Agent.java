@@ -41,4 +41,8 @@ public class Agent {
     int getFinishBaseIndex() {
         return this.finishBaseIndex;
     }
+
+    public Integer getId() {
+        return id;
+    }
 }

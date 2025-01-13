@@ -25,4 +25,12 @@ public final class GameStateMessage extends Message {
     public GameState getGameState() {
         return gameState;
     }
+
+    public String[] getPlayers() {
+        return players;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
 }

@@ -9,11 +9,11 @@ import java.util.Set;
 public abstract class Board implements Serializable, Cloneable {
     public abstract void generateBoard();
     public abstract void defineBases();
-    public abstract void move(String start, String end) ;
+    public abstract void move(Move move) ;
     public abstract void showBoard();
     private Map<Coordinate, Node> Nodes = new HashMap<>();
-    private Map<Integer, Set<Node>> Bases;
-    private Map<Node, Pawn> Pawns;
+    private Map<Integer, Set<Node>> Bases = new HashMap<>();
+    private Map<Node, Pawn> Pawns = new HashMap<>();
 
     public Map<Integer, Set<Node>> getBases() {
         return Bases;
@@ -24,7 +24,10 @@ public abstract class Board implements Serializable, Cloneable {
     }
 
     public Node getNode(Coordinate coordinate) {
-        return Nodes.get(coordinate);
+        if (Nodes.containsKey(coordinate)) {
+            return Nodes.get(coordinate);
+        }
+        return null;
     }
 
     public void addNode(Coordinate coordinate) {
@@ -32,8 +35,17 @@ public abstract class Board implements Serializable, Cloneable {
     }
 
     public void addPawn(Coordinate coordinate, Agent owner) {
-        Pawns.put(getNode(coordinate), new Pawn(owner, getNode(coordinate)));
+        Pawns.put(getNode(coordinate), new Pawn(Pawns.size()+1, owner, getNode(coordinate)));
         getNode(coordinate).setOccupied();
+    }
+
+    public void addPawn(Node node, Agent owner) {
+        Pawns.put(node, new Pawn(Pawns.size()+1 ,owner, node));
+        node.setOccupied();
+    }
+
+    public Pawn getPawn(Node node) {
+        return Pawns.get(node);
     }
 
     protected void assignBaseToNode(Coordinate coordinate, int baseId) {
@@ -45,6 +57,19 @@ public abstract class Board implements Serializable, Cloneable {
             Set<Node> nodes = new HashSet<>();
             nodes.add(new Node(coordinate.getX(), coordinate.getY()));
             Bases.put(baseId, nodes);
+        }
+    }
+
+    protected void defineNeighbours(Board board) {
+        for (Node node : Nodes.values()) {
+            int x = node.getXCoordinate();
+            int y = node.getYCoordinate();
+            node.addNeighbour(getNode(new Coordinate(x+2, y)));
+            node.addNeighbour(getNode(new Coordinate(x-2, y)));
+            node.addNeighbour(getNode(new Coordinate(x+1, y+1)));
+            node.addNeighbour(getNode(new Coordinate(x-1, y+1)));
+            node.addNeighbour(getNode(new Coordinate(x+1, y-1)));
+            node.addNeighbour(getNode(new Coordinate(x-1, y-1)));
         }
     }
 

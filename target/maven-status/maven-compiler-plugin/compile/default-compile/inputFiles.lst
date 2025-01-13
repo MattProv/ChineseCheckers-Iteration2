@@ -1,14 +1,18 @@
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\Client.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\ClientCallbacksHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\CommandProcessor.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\GUI\BoardDrawingTool.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\GUI\BoardPane.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\GUI\GameScreen.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\GUI\LobbyScreen.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\GUI\LoginScreen.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\client\GUI\NodeRepresentation.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\ClientMain.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\ClientMainGUI.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\Config.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Agent.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Board.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Coordinate.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Move.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Node.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Pawn.java
@@ -46,3 +50,4 @@ C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\server\Ser
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\server\ServerConnection.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\server\User.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\ServerMain.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\TestGUI.java

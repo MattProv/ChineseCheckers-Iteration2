@@ -2,9 +2,7 @@ package org.example.server;
 
 import org.example.GameState;
 import org.example.Player;
-import org.example.game_logic.Agent;
-import org.example.game_logic.Board;
-import org.example.game_logic.Rules;
+import org.example.game_logic.*;
 import org.example.message.GameStateMessage;
 import org.example.message.UserlistMessage;
 
@@ -91,15 +89,15 @@ public final class GameManager {
         this.playerCount = playerCount;
     }
 
-    public boolean makeMove(final Agent agent, final String start, final String end)
-    {
-        if(!gameState.isRunning())
+    public boolean makeMove(final Player player, final Move move) {
+        if (!gameState.isRunning())
             return false;
-        if(agents.get(currentTurn) != agent)
-            return false;
-        gameState.getBoard().move(start, end);
-        synchronizeGameState();
-        return true;
+        if (this.ruleset.validateMove(gameState.getBoard(), move)) {
+            gameState.getBoard().move(move);
+            synchronizeGameState();
+            return true;
+        }
+        return false;
     }
 
     public Player getPlayerByConnection(ServerConnection sc)
@@ -160,5 +158,16 @@ public final class GameManager {
         User user = getUserByConnection(sc);
         if(user != null)
             lobby.remove(user);
+    }
+
+    public boolean makeMoveFromCoordinates(final Player player, String start, String end) {
+        String[] parts = start.split(" ");
+        String[] partsEnd = end.split(" ");
+        int startX = Integer.parseInt(parts[0]);
+        int startY = Integer.parseInt(parts[1]);
+        int endX = Integer.parseInt(partsEnd[0]);
+        int endY = Integer.parseInt(partsEnd[1]);
+        Move move = new Move (gameState.getBoard().getNode(new Coordinate(startX, startY)), gameState.getBoard().getNode(new Coordinate(endX, endY)));
+        return makeMove(player, move);
     }
 }

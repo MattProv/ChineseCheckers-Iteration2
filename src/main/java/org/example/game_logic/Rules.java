@@ -1,7 +1,5 @@
 package org.example.game_logic;
 
-import org.example.Player;
-
 import java.util.List;
 
 public interface Rules<T extends Board> {
@@ -15,5 +13,5 @@ public interface Rules<T extends Board> {
         return true;
     }
     void assignBasesToAgents(T board, List<Agent> agents);
-    T setupBoard(T board, List<Agent> agents);
+    T setupBoard(T board);
 }

@@ -1,21 +1,20 @@
 package org.example.game_logic;
 
 public class Move {
-    Node startPosition;
-    Node endPosition;
-    Pawn pawn;
+    private Node startPosition;
+    private Node endPosition;
 
-    Move(Node startPosition, Node endPosition, Pawn pawn) {
+    public Move(Node startPosition, Node endPosition) {
         this.startPosition = startPosition;
         this.endPosition = endPosition;
-        this.pawn = pawn;
+
     }
 
-    Node getStart(){
+    public Node getStart(){
         return startPosition;
     }
 
-    Node getEnd(){
+    public Node getEnd(){
         return endPosition;
     }
 }

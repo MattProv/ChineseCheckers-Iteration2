@@ -1,5 +1,6 @@
 package org.example.message.serverHandlers;
 
+import org.example.game_logic.Move;
 import org.example.message.MessageHandler;
 import org.example.message.MessageSenderPair;
 import org.example.message.MessageType;
@@ -21,7 +22,7 @@ public final class MoveMessageHandler extends MessageHandler {
         MoveMessage moveMessage = (MoveMessage) message.getMessage();
         ServerConnection sc = message.getConnection();
 
-        gameManager.makeMove(
+        gameManager.makeMoveFromCoordinates(
                 gameManager.getPlayerByConnection(sc),
                 moveMessage.getStart(),
                 moveMessage.getEnd()

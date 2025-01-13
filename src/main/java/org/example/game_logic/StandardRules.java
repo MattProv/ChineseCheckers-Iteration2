@@ -1,9 +1,7 @@
 package org.example.game_logic;
 
-import org.example.Player;
-
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static java.lang.Math.abs;
@@ -33,15 +31,20 @@ public class StandardRules implements Rules<StandardBoard> {
     }
 
     @Override
-    public StandardBoard setupBoard(StandardBoard board) {
-        return null;
+    public StandardBoard setupBoard(StandardBoard board, List<Agent> agents) {
+        for (Agent agent : agents) {
+            for (Node node : board.getBases().get(agent.getStartBaseIndex())) {
+                board.addPawn(node, agent);
+            }
+        }
+        return board;
     }
 
     @Override
-    public boolean validateMove(StandardBoard board, Pawn pawn, Move move) {
+    public boolean validateMove(StandardBoard board, Move move) {
         // A pawn can't leave it's base after it enters it
-        if (pawn.isBaseLocked())
-            if (move.getEnd().getBaseId() != pawn.getOwner().getFinishBaseIndex())
+        if (board.getPawn(move.getStart()).isBaseLocked())
+            if (move.getEnd().getBaseId() != board.getPawn(move.getStart()).getOwner().getFinishBaseIndex())
                 return false;
 
         // A pawn can move to an empty neighbouring node
@@ -50,16 +53,16 @@ public class StandardRules implements Rules<StandardBoard> {
                 return false;
             else
                 return true;
-        // A pawn can hop over a neighbouring pawn
+        // A pawn can hop over any neighbouring pawn
         else
             if (move.getStart().getYCoordinate() == move.getEnd().getYCoordinate())
                 if (abs(move.getStart().getXCoordinate() - move.getEnd().getXCoordinate()) == 4)
-                    if (board.getNode((move.getStart().getXCoordinate() + move.getEnd().getXCoordinate())/2,
-                            move.getStart().getYCoordinate()).getIsOccupied())
+                    if (board.getNode(new Coordinate((move.getStart().getXCoordinate() + move.getEnd().getXCoordinate())/2,
+                            move.getStart().getYCoordinate())).getIsOccupied())
                         return true;
             else if (abs(move.getStart().getYCoordinate() - move.getEnd().getYCoordinate()) == 2)
-                if (board.getNode((move.getStart().getXCoordinate() + move.getEnd().getXCoordinate())/2,
-                                (move.getStart().getYCoordinate() + move.getEnd().getYCoordinate())/2).getIsOccupied())
+                if (board.getNode(new Coordinate((move.getStart().getXCoordinate() + move.getEnd().getXCoordinate())/2,
+                                (move.getStart().getYCoordinate() + move.getEnd().getYCoordinate())/2)).getIsOccupied())
                     return true;
         // For everything else, discard as an invalid move
         return false;

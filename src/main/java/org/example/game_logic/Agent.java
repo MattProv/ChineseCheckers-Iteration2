@@ -1,10 +1,13 @@
 package org.example.game_logic;
 
+import org.example.Player;
+
 import java.awt.*;
 import java.util.List;
 
 public class Agent {
     int id;
+    private Player owner;
     private List<Pawn> pawns;
     Color color;
     private int startBaseIndex;
@@ -19,6 +22,7 @@ public class Agent {
 
     public Agent(int id, int startBaseIndex, int finishBaseIndex) {
         this.id = id;
+        this.owner = owner;
         this.startBaseIndex = startBaseIndex;
         this.finishBaseIndex = finishBaseIndex;
     }
@@ -42,5 +46,9 @@ public class Agent {
 
     public boolean isPlayer() {
         return isPlayer;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

@@ -15,6 +15,15 @@ C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Rules.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\StandardBoard.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\StandardRules.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Agent.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Board.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Coordinate.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Move.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Node.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Pawn.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\Rules.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\StandardBoard.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\game_logic\StandardRules.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\GameState.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\EchoMessageHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\GameStateMessageGUIHandler.java

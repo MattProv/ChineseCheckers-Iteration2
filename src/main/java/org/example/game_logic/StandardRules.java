@@ -1,8 +1,5 @@
 package org.example.game_logic;
 
-import org.example.Player;
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -54,12 +51,12 @@ public class StandardRules implements Rules<StandardBoard> {
         else
             if (move.getStart().getYCoordinate() == move.getEnd().getYCoordinate())
                 if (abs(move.getStart().getXCoordinate() - move.getEnd().getXCoordinate()) == 4)
-                    if (board.getNode((move.getStart().getXCoordinate() + move.getEnd().getXCoordinate())/2,
-                            move.getStart().getYCoordinate()).getIsOccupied())
+                    if (board.getNode(new Coordinate((move.getStart().getXCoordinate() + move.getEnd().getXCoordinate())/2,
+                            move.getStart().getYCoordinate())).getIsOccupied())
                         return true;
             else if (abs(move.getStart().getYCoordinate() - move.getEnd().getYCoordinate()) == 2)
-                if (board.getNode((move.getStart().getXCoordinate() + move.getEnd().getXCoordinate())/2,
-                                (move.getStart().getYCoordinate() + move.getEnd().getYCoordinate())/2).getIsOccupied())
+                if (board.getNode(new Coordinate((move.getStart().getXCoordinate() + move.getEnd().getXCoordinate())/2,
+                                (move.getStart().getYCoordinate() + move.getEnd().getYCoordinate())/2)).getIsOccupied())
                     return true;
         // For everything else, discard as an invalid move
         return false;

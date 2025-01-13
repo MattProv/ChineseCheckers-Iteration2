@@ -1,15 +1,17 @@
 package org.example;
 
-import org.example.server.ServerConnection;
+import org.example.game_logic.Agent;
+import org.example.server.User;
 
-public final class Player {
-    private final ServerConnection owner;
+public final class Player extends Agent {
+    private final User owner;
 
-    public Player(final ServerConnection owner) {
+    public Player(final User owner, int id, int startBaseIndex, int finishBaseIndex) {
+        super(id, startBaseIndex, finishBaseIndex, true);
         this.owner = owner;
     }
 
-    public ServerConnection getOwner() {
+    public User getOwner() {
         return owner;
     }
 }

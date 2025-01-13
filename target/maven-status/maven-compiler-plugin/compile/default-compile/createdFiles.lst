@@ -9,6 +9,5 @@ org\example\message\clientHandlers\GameStateMessageGUIHandler.class
 org\example\ClientMainGUI$1.class
 org\example\message\clientHandlers\StringMessageGUIHandler.class
 org\example\client\GUI\LoginScreen$CallbacksHandler.class
-org\example\ClientMainGUI$5.class
 org\example\ClientMainGUI$2.class
 org\example\ClientMainGUI.class

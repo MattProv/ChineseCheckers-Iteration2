@@ -1,9 +1,9 @@
 package org.example.server;
 
-import org.example.game_logic.Agent;
-import org.example.game_logic.Board;
 import org.example.GameState;
 import org.example.Player;
+import org.example.game_logic.Agent;
+import org.example.game_logic.Board;
 import org.example.game_logic.Rules;
 import org.example.message.GameStateMessage;
 import org.example.message.UserlistMessage;
@@ -14,14 +14,15 @@ import java.util.List;
 public final class GameManager {
     private static GameManager instance = new GameManager();
     //LOBBY
-    private final List<User> lobby = new ArrayList<User>();
+    private final List<User> lobby = new ArrayList<>();
     //SETTINGS
     private int playerCount = 2;
 
     //RUNTIME
     private final GameState gameState = new GameState();
-    private final List<Player> players = new ArrayList<Player>();
     private List<Agent> agents = new ArrayList<>();
+    private int currentTurn = 0;
+
     private Rules ruleset;
     private final GameManagerCallbackHandler gameManagerCallbackHandler = new GameManagerCallbackHandler();
 
@@ -44,21 +45,21 @@ public final class GameManager {
         return instance;
     }
 
-    public boolean startGame(final List<ServerConnection> users) {
+    public void startGame(final List<ServerConnection> users) {
         if (gameState.isRunning()) {
             gameManagerCallbackHandler.onGameNotStarted("Game already running!");
-            return false;
+            return;
         }
 
         if (users.size() != playerCount) {
             String msg = "Game cannot be started, " + users.size() + " users connected out of " + playerCount + " required!";
             gameManagerCallbackHandler.onGameNotStarted(msg);
-            return false;
+            return;
         }
 
         if (gameState.getBoard() == null) {
             gameManagerCallbackHandler.onGameNotStarted("No board set!");
-            return false;
+            return;
         }
 
         gameState.getBoard().generateBoard();
@@ -66,58 +67,72 @@ public final class GameManager {
         this.ruleset.assignBasesToAgents(gameState.getBoard(), agents);
         gameState.setRunning(true);
 
-        synchronizeBoard();
+        synchronizeGameState();
 
         gameManagerCallbackHandler.onGameStarted();
-        return true;
     }
 
-    public boolean setBoard(final Board board) {
+    public void setBoard(final Board board) {
         if(gameState.isRunning())
-            return false;
+            return;
         gameState.setBoard(board);
-        return true;
     }
 
-    public boolean setPlayerCount(final int playerCount) {
+    public void setPlayerCount(final int playerCount) {
         if(gameState.isRunning()) {
             gameManagerCallbackHandler.onPlayerCountNotChanged(playerCount, "Game already running!");
-            return false;
+            return;
         }
         if(playerCount == 5 || playerCount > 6 || playerCount < 2) {
             gameManagerCallbackHandler.onPlayerCountNotChanged(playerCount, "Invalid player count!");
-            return false;
+            return;
         }
         gameManagerCallbackHandler.onPlayerCountChanged(this.playerCount, playerCount);
         this.playerCount = playerCount;
-        return true;
     }
 
-    public boolean makeMove(final Player player, final String start, final String end)
+    public boolean makeMove(final Agent agent, final String start, final String end)
     {
         if(!gameState.isRunning())
             return false;
-        //if(currentPlayer != player)
-        //    return false;
+        if(agents.get(currentTurn) != agent)
+            return false;
         gameState.getBoard().move(start, end);
-        synchronizeBoard();
+        synchronizeGameState();
         return true;
     }
 
     public Player getPlayerByConnection(ServerConnection sc)
     {
-        for(Player player : players)
+        for(Agent agent : agents)
         {
-            if(player.getOwner() == sc)
-                return player;
+           if(agent.isPlayer())
+               return (Player) agent;
+        }
+        return null;
+    }
+    public User getUserByConnection(ServerConnection sc)
+    {
+        for(User user : lobby)
+        {
+            if(user.getConnection() == sc)
+                return user;
         }
         return null;
     }
 
-    public void synchronizeBoard()
+    public void synchronizeGameState()
     {
-        System.out.println("Synchronizing board.");
-        GameStateMessage gsm = new GameStateMessage(gameState.clone());
+        System.out.println("Synchronizing game state.");
+        List<String> playerNames = new ArrayList<String>();
+        for(Agent agent : agents)
+        {
+            playerNames.add(agent.isPlayer()?((Player)agent).getOwner().getUsername():"AI");
+        }
+        String[] playerNamesArray = new String[playerNames.size()];
+        playerNamesArray = playerNames.toArray(playerNamesArray);
+
+        GameStateMessage gsm = new GameStateMessage(gameState.clone(), playerNamesArray, currentTurn);
         gsm.getGameState().getBoard().showBoard();
         Server.getServer().Broadcast(gsm);
     }
@@ -142,13 +157,8 @@ public final class GameManager {
 
     public void removeUser(ServerConnection sc)
     {
-        for(User user : lobby)
-        {
-            if(user.getConnection() == sc)
-            {
-                lobby.remove(user);
-                return;
-            }
-        }
+        User user = getUserByConnection(sc);
+        if(user != null)
+            lobby.remove(user);
     }
 }

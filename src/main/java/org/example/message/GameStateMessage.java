@@ -6,10 +6,15 @@ public final class GameStateMessage extends Message {
 
     private final GameState gameState;
     //current turn
+    int turn = 0;
 
-    public GameStateMessage(final GameState gameState) {
+    String[] players;
+
+    public GameStateMessage(final GameState gameState, String[] players, int turn) {
         super(MessageType.GAMESTATE);
         this.gameState = gameState;
+        this.players = players;
+        this.turn = turn;
     }
 
     @Override

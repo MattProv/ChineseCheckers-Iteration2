@@ -6,7 +6,7 @@ public class ServerCallbacksHandler {
 
     public void onNewConnection(final ServerConnection connection) {
         System.out.println("User connected: " + connection);
-        GameManager.getInstance().synchronizeBoard();
+        GameManager.getInstance().synchronizeGameState();
     }
 
     public void onConnectionClosed(final ServerConnection connection) {

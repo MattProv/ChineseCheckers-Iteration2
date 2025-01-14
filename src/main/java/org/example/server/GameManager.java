@@ -43,50 +43,54 @@ public final class GameManager {
         return instance;
     }
 
-    public void startGame(final List<ServerConnection> users) {
+    public boolean startGame(final List<ServerConnection> users) {
         if (gameState.isRunning()) {
             gameManagerCallbackHandler.onGameNotStarted("Game already running!");
-            return;
+            return false;
         }
 
         if (users.size() != playerCount) {
             String msg = "Game cannot be started, " + users.size() + " users connected out of " + playerCount + " required!";
             gameManagerCallbackHandler.onGameNotStarted(msg);
-            return;
+            return false;
         }
 
         if (gameState.getBoard() == null) {
             gameManagerCallbackHandler.onGameNotStarted("No board set!");
-            return;
+            return false;
         }
 
         gameState.getBoard().generateBoard();
         gameState.getBoard().defineBases();
         this.ruleset.assignBasesToAgents(gameState.getBoard(), agents);
+        this.ruleset.setupBoard(gameState.getBoard(), agents);
         gameState.setRunning(true);
 
         synchronizeGameState();
 
         gameManagerCallbackHandler.onGameStarted();
+        return true;
     }
 
-    public void setBoard(final Board board) {
+    public boolean setBoard(final Board board) {
         if(gameState.isRunning())
-            return;
+            return false;
         gameState.setBoard(board);
+        return true;
     }
 
-    public void setPlayerCount(final int playerCount) {
+    public boolean setPlayerCount(final int playerCount) {
         if(gameState.isRunning()) {
             gameManagerCallbackHandler.onPlayerCountNotChanged(playerCount, "Game already running!");
-            return;
+            return false;
         }
         if(playerCount == 5 || playerCount > 6 || playerCount < 2) {
             gameManagerCallbackHandler.onPlayerCountNotChanged(playerCount, "Invalid player count!");
-            return;
+            return false;
         }
         gameManagerCallbackHandler.onPlayerCountChanged(this.playerCount, playerCount);
         this.playerCount = playerCount;
+        return true;
     }
 
     public boolean makeMove(final Player player, final Move move) {
@@ -167,7 +171,7 @@ public final class GameManager {
         int startY = Integer.parseInt(parts[1]);
         int endX = Integer.parseInt(partsEnd[0]);
         int endY = Integer.parseInt(partsEnd[1]);
-        Move move = new Move (gameState.getBoard().getNode(new Coordinate(startX, startY)), gameState.getBoard().getNode(new Coordinate(endX, endY)));
+        Move move = new Move (gameState.getBoard().getNode(new Coordinate(startX, startY)), gameState.getBoard().getNode(new Coordinate(endX, endY)) );
         return makeMove(player, move);
     }
 }

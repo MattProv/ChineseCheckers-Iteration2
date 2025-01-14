@@ -1,5 +1,7 @@
 package org.example.server;
 
+import org.example.game_logic.Agent;
+import org.example.game_logic.Move;
 import org.example.message.StringMessage;
 
 public class GameManagerCallbackHandler {
@@ -48,5 +50,15 @@ public class GameManagerCallbackHandler {
     public void onRulesChanged(String info) {
         System.out.println("Rules changed: " + info);
         Server.getServer().Broadcast(new StringMessage("Rules changed: " + info));
+    }
+
+    public void onInvalidMove(Agent agent, Move move, String reason) {
+        System.out.println("Invalid move by " + agent + ": " + reason);
+        Server.getServer().Broadcast(new StringMessage("Invalid move by " + agent + ": " + reason));
+    }
+
+    public void onValidMove(Agent agent, Move move, String s) {
+        System.out.println("Valid move by " + agent + ": " + s);
+        Server.getServer().Broadcast(new StringMessage("Valid move by " + agent + ": " + s));
     }
 }

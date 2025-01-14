@@ -7,7 +7,7 @@ import org.example.server.GameManager;
 
 public class EndTurnMessageHandler extends MessageHandler {
     private final GameManager gameManager;
-    EndTurnMessageHandler(GameManager gameManager) {
+    public EndTurnMessageHandler(GameManager gameManager) {
         super(MessageType.END_TURN);
         this.gameManager = gameManager;
     }

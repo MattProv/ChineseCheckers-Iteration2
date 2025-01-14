@@ -5,7 +5,7 @@ import org.example.server.Server;
 import org.example.server.User;
 
 public final class Player extends Agent {
-    private final User owner;
+    private transient final User owner;
 
     public Player(final User owner, int id) {
         super(id, true);

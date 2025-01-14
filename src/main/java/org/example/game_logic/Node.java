@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Node implements Serializable {
-    private List<Node> neighbours;
+    private List<Node> neighbours = new java.util.ArrayList<>();
     private int[] coordinates = new int[2];
     private boolean isOccupied;
     //private Pawn occupant;

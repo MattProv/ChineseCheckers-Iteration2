@@ -17,6 +17,7 @@ import org.example.game_logic.Coordinate;
 import org.example.game_logic.RulesType;
 import org.example.message.*;
 import org.example.message.clientHandlers.GameStateMessageGUIHandler;
+import org.example.message.clientHandlers.PromptMoveMessageHandler;
 import org.example.message.clientHandlers.StringMessageGUIHandler;
 import org.example.message.clientHandlers.UserlistMessageHandler;
 
@@ -111,6 +112,7 @@ public class ClientMainGUI extends Application {
             @Override
             public void onEndTurn() {
                 client.send(new EndTurnMessage());
+                gameScreen.enableEndTurnButton(false);
             }
 
             @Override
@@ -141,6 +143,7 @@ public class ClientMainGUI extends Application {
         client.AddHandler(new GameStateMessageGUIHandler(gameState, gameScreen));
         client.AddHandler(new UserlistMessageHandler(lobbyScreen, gameScreen));
         client.AddHandler(new StringMessageGUIHandler(lobbyScreen));
+        client.AddHandler(new PromptMoveMessageHandler(gameScreen));
         client.AddHandler(new MessageHandler(MessageType.GAMESTATE) {
             @Override
             public void handle(MessageSenderPair message) {

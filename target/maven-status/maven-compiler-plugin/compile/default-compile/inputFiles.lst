@@ -27,12 +27,14 @@ C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\Bo
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\EchoMessageHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\GameStateMessageGUIHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\GameStateMessageHandler.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\PromptMoveMessageHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\StringMessageGUIHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\clientHandlers\UserlistMessageHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\CommandMessage.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\Commands.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\DisconnectMessage.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\EchoMessageHandler.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\EndTurnMessage.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\GameStateMessage.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\LogMessageHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\Message.java
@@ -40,9 +42,11 @@ C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\Me
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\MessageSenderPair.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\MessageType.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\MoveMessage.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\PromptMoveMessage.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\RulesTypeMessage.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\serverHandlers\BoardTypeMessageHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\serverHandlers\CommandMessageHandler.java
+C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\serverHandlers\EndTurnMessageHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\serverHandlers\MoveMessageHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\serverHandlers\RuleTypeMessageHandler.java
 C:\Users\osica\IdeaProjects\ChineseCheckers\src\main\java\org\example\message\serverHandlers\UsernameMessageHandler.java

@@ -69,6 +69,7 @@ public final class GameManager {
             return false;
         }
 
+        currentTurn = 0;
         agents.clear();
         for (User user : lobby) {
             agents.add(new Player(user, agents.size()));
@@ -78,6 +79,8 @@ public final class GameManager {
         ruleset.assignBasesToAgents(gameState.getBoard(), agents);
         ruleset.setupBoard(gameState.getBoard(), agents);
         gameState.setRunning(true);
+
+        agents.getFirst().promptMove(gameState.getBoard());
 
         synchronizeGameState();
 
@@ -110,14 +113,25 @@ public final class GameManager {
         return true;
     }
 
-    public boolean makeMove(final Player player, final Move move) {
-        if (!gameState.isRunning())
+    public boolean makeMove(final Agent agent, final Move move) {
+        if (!gameState.isRunning()) {
+            gameManagerCallbackHandler.onInvalidMove(agent, move, "Game not running!");
             return false;
-        if (this.ruleset.validateMove(gameState.getBoard(), move)) {
+        }
+
+        if(agent != agents.get(currentTurn))
+        {
+            gameManagerCallbackHandler.onInvalidMove(agent, move, "Not your turn!");
+            return false;
+        }
+
+        if (ruleset.validateMove(gameState.getBoard(), move)) {
             gameState.getBoard().move(move);
             synchronizeGameState();
+            gameManagerCallbackHandler.onValidMove(agent, move, "Valid move!");
             return true;
         }
+        gameManagerCallbackHandler.onInvalidMove(agent, move, "Invalid move!");
         return false;
     }
 
@@ -126,7 +140,11 @@ public final class GameManager {
         for(Agent agent : agents)
         {
            if(agent.isPlayer())
-               return (Player) agent;
+           {
+                Player player = (Player)agent;
+                if(player.getOwner().getConnection() == sc)
+                     return player;
+           }
         }
         return null;
     }
@@ -181,9 +199,9 @@ public final class GameManager {
             lobby.remove(user);
     }
 
-    public boolean makeMoveFromCoordinates(final Player player, Coordinate start, Coordinate end) {
+    public boolean makeMoveFromCoordinates(final Agent agent, Coordinate start, Coordinate end) {
         Move move = new Move (gameState.getBoard().getNode(start), gameState.getBoard().getNode(end) );
-        return makeMove(player, move);
+        return makeMove(agent, move);
     }
 
 

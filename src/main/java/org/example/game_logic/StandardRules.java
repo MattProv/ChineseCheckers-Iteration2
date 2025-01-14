@@ -41,6 +41,8 @@ public class StandardRules implements Rules<StandardBoard> {
 
     @Override
     public boolean validateMove(StandardBoard board, Move move) {
+        if(board.getPawn(move.getStart()) == null)
+            return false;
         // A pawn can't leave it's base after it enters it
         if (board.getPawn(move.getStart()).isBaseLocked())
             if (move.getEnd().getBaseId() != board.getPawn(move.getStart()).getOwner().getFinishBaseIndex())

@@ -31,6 +31,7 @@ public class ServerMain {
         server.AddHandler(new UsernameMessageHandler(gameManager));
         server.AddHandler(new RuleTypeMessageHandler(gameManager));
         server.AddHandler(new BoardTypeMessageHandler(gameManager));
+        server.AddHandler(new EndTurnMessageHandler(gameManager));
         server.Bind(Config.PORT);
         server.Listen();
 

@@ -1,5 +1,6 @@
 package org.example.message.clientHandlers;
 
+import javafx.application.Platform;
 import org.example.GameState;
 import org.example.client.GUI.GameScreen;
 import org.example.message.GameStateMessage;
@@ -22,8 +23,11 @@ public class GameStateMessageGUIHandler extends MessageHandler {
     public void handle(final MessageSenderPair message) {
         GameStateMessage bm = (GameStateMessage) message.getMessage();
 
+        bm.getGameState().getBoard().showBoard();
         gameState.setState(bm.getGameState());
-        gameScreen.updateBoard();
-        gameScreen.updatePlayerList(bm.getPlayers(), bm.getTurn());
+        Platform.runLater(() -> {
+            gameScreen.updateBoard();
+            gameScreen.updatePlayerList(bm.getPlayers(), bm.getTurn());
+            });
     }
 }

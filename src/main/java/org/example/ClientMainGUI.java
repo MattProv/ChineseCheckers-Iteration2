@@ -12,8 +12,12 @@ import org.example.client.ClientCallbacksHandler;
 import org.example.client.GUI.GameScreen;
 import org.example.client.GUI.LobbyScreen;
 import org.example.client.GUI.LoginScreen;
+import org.example.game_logic.BoardType;
+import org.example.game_logic.Coordinate;
+import org.example.game_logic.RulesType;
 import org.example.message.*;
 import org.example.message.clientHandlers.GameStateMessageGUIHandler;
+import org.example.message.clientHandlers.PromptMoveMessageHandler;
 import org.example.message.clientHandlers.StringMessageGUIHandler;
 import org.example.message.clientHandlers.UserlistMessageHandler;
 
@@ -87,6 +91,39 @@ public class ClientMainGUI extends Application {
             public void onError(String message) {
                 showError(message);
             }
+
+            @Override
+            public void onChangeBoardType(BoardType boardType) {
+                client.send(new BoardTypeMessage(boardType));
+            }
+
+            @Override
+            public void onChangeRulesType(RulesType rulesType) {
+                client.send(new RulesTypeMessage(rulesType));
+            }
+        });
+
+        gameScreen.setCallbacksHandler(new GameScreen.CallbacksHandler() {
+            @Override
+            public void onMove(Coordinate start, Coordinate end) {
+                client.send(new MoveMessage(start, end));
+            }
+
+            @Override
+            public void onEndTurn() {
+                client.send(new EndTurnMessage());
+                gameScreen.enableEndTurnButton(false);
+            }
+
+            @Override
+            public void onQuit() {
+                client.send(new DisconnectMessage());
+            }
+
+            @Override
+            public void onError(String message) {
+                showError(message);
+            }
         });
 
         client.clientCallbacksHandler = new ClientCallbacksHandler() {
@@ -106,6 +143,7 @@ public class ClientMainGUI extends Application {
         client.AddHandler(new GameStateMessageGUIHandler(gameState, gameScreen));
         client.AddHandler(new UserlistMessageHandler(lobbyScreen, gameScreen));
         client.AddHandler(new StringMessageGUIHandler(lobbyScreen));
+        client.AddHandler(new PromptMoveMessageHandler(gameScreen));
         client.AddHandler(new MessageHandler(MessageType.GAMESTATE) {
             @Override
             public void handle(MessageSenderPair message) {

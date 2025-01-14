@@ -21,7 +21,7 @@ public final class GameManager {
     private List<Agent> agents = new ArrayList<>();
     private int currentTurn = 0;
 
-    private Rules ruleset = new ChaosRules();
+    private Rules ruleset = new StandardRules();
     private final GameManagerCallbackHandler gameManagerCallbackHandler = new GameManagerCallbackHandler();
 
     private GameManager()
@@ -29,8 +29,13 @@ public final class GameManager {
 
     }
 
-    public <T extends Rules> void setRuleset(T ruleset) {
+    public void setRuleset(Rules ruleset) {
+        if(gameState.isRunning()) {
+            gameManagerCallbackHandler.onRulesNotChanged("Game already running!");
+            return;
+        }
         this.ruleset = ruleset;
+        gameManagerCallbackHandler.onRulesChanged("Rules changed!");
     }
 
     public static GameManager create()
@@ -59,15 +64,25 @@ public final class GameManager {
             gameManagerCallbackHandler.onGameNotStarted("No board set!");
             return false;
         }
+
+        if(ruleset == null) {
+            gameManagerCallbackHandler.onGameNotStarted("No ruleset set!");
+            return false;
+        }
+
+        currentTurn = 0;
+        agents.clear();
         for (User user : lobby) {
             agents.add(new Player(user, agents.size()));
         }
         gameState.getBoard().generateBoard();
         gameState.getBoard().defineBases();
         gameState.getBoard().defineNeighbours();
-        this.ruleset.assignBasesToAgents(gameState.getBoard(), agents);
-        this.ruleset.setupBoard(gameState.getBoard(), agents);
+        ruleset.assignBasesToAgents(gameState.getBoard(), agents);
+        ruleset.setupBoard(gameState.getBoard(), agents);
         gameState.setRunning(true);
+
+        agents.getFirst().promptMove(gameState.getBoard());
 
         synchronizeGameState();
 
@@ -76,9 +91,13 @@ public final class GameManager {
     }
 
     public boolean setBoard(final Board board) {
-        if(gameState.isRunning())
+        if(gameState.isRunning()) {
+            gameManagerCallbackHandler.onBoardNotChanged("Game already running!");
             return false;
+        }
         gameState.setBoard(board);
+        gameManagerCallbackHandler.onBoardChanged("Board set!");
+
         return true;
     }
 
@@ -96,18 +115,25 @@ public final class GameManager {
         return true;
     }
 
-    public boolean makeMove(final Player player, final Move move) {
-        if (!gameState.isRunning())
-            return false;
-        if (gameState.getBoard().getPawn(move.getStart()).getOwner().equals(player)) {
-            System.out.println("Can't move another player's pawn!");
+    public boolean makeMove(final Agent agent, final Move move) {
+        if (!gameState.isRunning()) {
+            gameManagerCallbackHandler.onInvalidMove(agent, move, "Game not running!");
             return false;
         }
-        if (this.ruleset.validateMove(gameState.getBoard(), move)) {
+
+        if(agent != agents.get(currentTurn))
+        {
+            gameManagerCallbackHandler.onInvalidMove(agent, move, "Not your turn!");
+            return false;
+        }
+
+        if (ruleset.validateMove(gameState.getBoard(), move)) {
             gameState.getBoard().move(move);
             synchronizeGameState();
+            gameManagerCallbackHandler.onValidMove(agent, move, "Valid move!");
             return true;
         }
+        gameManagerCallbackHandler.onInvalidMove(agent, move, "Invalid move!");
         return false;
     }
 
@@ -116,7 +142,11 @@ public final class GameManager {
         for(Agent agent : agents)
         {
            if(agent.isPlayer())
-               return (Player) agent;
+           {
+                Player player = (Player)agent;
+                if(player.getOwner().getConnection() == sc)
+                     return player;
+           }
         }
         return null;
     }
@@ -171,14 +201,18 @@ public final class GameManager {
             lobby.remove(user);
     }
 
-    public boolean makeMoveFromCoordinates(final Player player, String start, String end) {
-        String[] parts = start.split(" ");
-        String[] partsEnd = end.split(" ");
-        int startX = Integer.parseInt(parts[0]);
-        int startY = Integer.parseInt(parts[1]);
-        int endX = Integer.parseInt(partsEnd[0]);
-        int endY = Integer.parseInt(partsEnd[1]);
-        Move move = new Move (gameState.getBoard().getNode(new Coordinate(startX, startY)), gameState.getBoard().getNode(new Coordinate(endX, endY)) );
-        return makeMove(player, move);
+    public boolean makeMoveFromCoordinates(final Agent agent, Coordinate start, Coordinate end) {
+        Move move = new Move (gameState.getBoard().getNode(start), gameState.getBoard().getNode(end) );
+        return makeMove(agent, move);
+    }
+
+
+    public void endTurn(Agent agent) {
+        if(agent != agents.get(currentTurn))
+            return;
+        currentTurn = (currentTurn + 1) % agents.size();
+        synchronizeGameState();
+
+        agents.get(currentTurn).promptMove(gameState.getBoard());
     }
 }

@@ -8,5 +8,7 @@ public enum MessageType
     COMMAND,
     GAMESTATE,
     USERNAME,
-    USERLIST
+    USERLIST,
+    RULES_TYPE,
+    BOARD_TYPE, END_TURN, PROMPT_MOVE,
 }

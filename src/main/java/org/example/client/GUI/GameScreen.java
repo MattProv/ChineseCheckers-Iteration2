@@ -15,10 +15,17 @@ import java.util.Objects;
 
 public class GameScreen extends BorderPane {
 
+    public void promptMove() {
+        Platform.runLater(() -> {
+            enableEndTurnButton(true);
+        });
+    }
+
     public static abstract class CallbacksHandler {
         public abstract void onQuit();
         public abstract void onEndTurn();
         public abstract void onMove(Coordinate start, Coordinate end);
+        public abstract void onError(String message);
     }
 
     private CallbacksHandler callbacksHandler;
@@ -90,7 +97,7 @@ public class GameScreen extends BorderPane {
 
         GridPane buttons = getButtons();
 
-        setBottom(buttons);
+        setBottom(new VBox(buttons, serverMessage));
 
         widthProperty().addListener(Observable -> updateBoard());
 

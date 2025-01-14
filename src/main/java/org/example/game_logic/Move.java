@@ -1,6 +1,8 @@
 package org.example.game_logic;
 
-public class Move {
+import java.io.Serializable;
+
+public class Move implements Serializable {
     private Node startPosition;
     private Node endPosition;
 

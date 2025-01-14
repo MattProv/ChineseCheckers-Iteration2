@@ -72,6 +72,10 @@ public abstract class Board implements Serializable, Cloneable {
 
     @Override
     public Board clone() throws CloneNotSupportedException {
-        return (Board) super.clone();
+        Board cloned = (Board) super.clone();
+        cloned.Nodes = new HashMap<>(Nodes);
+        cloned.Bases = new HashMap<>(Bases);
+        cloned.Pawns = new HashMap<>(Pawns);
+        return cloned;
     }
 }

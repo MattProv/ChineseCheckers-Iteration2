@@ -34,6 +34,7 @@ public class NodeRepresentation extends Ellipse {
                 this.setFill(null);
             } else {
                 // TODO: set fill color when node is occupied
+                this.setFill(Paint.valueOf("black"));
             }
         });
 

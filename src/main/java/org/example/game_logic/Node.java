@@ -41,12 +41,8 @@ public class Node implements Serializable {
         //this.occupant = occupant;
     }
 
-    public void setUnoccupied(Pawn occupant) {
-        //if (this.occupant != occupant) {
-        //    System.out.println("Pawn tried to free a node that wasn't occupied by it!");
-        //}
+    public void setUnoccupied() {
         this.isOccupied = false;
-        //this.occupant = null;
     }
 
     public void addNeighbour(Node neighbour) {

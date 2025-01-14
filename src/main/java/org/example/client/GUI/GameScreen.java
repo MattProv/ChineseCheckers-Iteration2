@@ -97,7 +97,7 @@ public class GameScreen extends BorderPane {
 
         GridPane buttons = getButtons();
 
-        setBottom(buttons);
+        setBottom(new VBox(buttons, serverMessage));
 
         widthProperty().addListener(Observable -> updateBoard());
 

@@ -13,5 +13,5 @@ public interface Rules<T extends Board> {
         return true;
     }
     void assignBasesToAgents(T board, List<Agent> agents);
-    T setupBoard(T board);
+    T setupBoard(T board, List<Agent> agents);
 }

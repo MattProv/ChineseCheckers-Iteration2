@@ -30,8 +30,13 @@ public class StandardRules implements Rules<StandardBoard> {
     }
 
     @Override
-    public StandardBoard setupBoard(StandardBoard board) {
-        return null;
+    public StandardBoard setupBoard(StandardBoard board, List<Agent> agents) {
+        for (Agent agent : agents) {
+            for (Node node : board.getBases().get(agent.getStartBaseIndex())) {
+                board.addPawn(node, agent);
+            }
+        }
+        return board;
     }
 
     @Override

@@ -29,4 +29,24 @@ public class GameManagerCallbackHandler {
         System.out.println("Player count not changed to " + newCount + ": " + reason);
         Server.getServer().Broadcast(new StringMessage("Player count not changed to " + newCount + ": " + reason));
     }
+
+    public void onBoardNotChanged(String reason) {
+        System.out.println("Board not changed: " + reason);
+        Server.getServer().Broadcast(new StringMessage("Board not changed: " + reason));
+    }
+
+    public void onBoardChanged(String info) {
+        System.out.println("Board changed: " + info);
+        Server.getServer().Broadcast(new StringMessage("Board changed: " + info));
+    }
+
+    public void onRulesNotChanged(String reason) {
+        System.out.println("Rules not changed: " + reason);
+        Server.getServer().Broadcast(new StringMessage("Rules not changed: " + reason));
+    }
+
+    public void onRulesChanged(String info) {
+        System.out.println("Rules changed: " + info);
+        Server.getServer().Broadcast(new StringMessage("Rules changed: " + info));
+    }
 }

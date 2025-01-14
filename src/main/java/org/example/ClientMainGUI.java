@@ -12,6 +12,8 @@ import org.example.client.ClientCallbacksHandler;
 import org.example.client.GUI.GameScreen;
 import org.example.client.GUI.LobbyScreen;
 import org.example.client.GUI.LoginScreen;
+import org.example.game_logic.BoardType;
+import org.example.game_logic.RulesType;
 import org.example.message.*;
 import org.example.message.clientHandlers.GameStateMessageGUIHandler;
 import org.example.message.clientHandlers.StringMessageGUIHandler;
@@ -86,6 +88,16 @@ public class ClientMainGUI extends Application {
             @Override
             public void onError(String message) {
                 showError(message);
+            }
+
+            @Override
+            public void onChangeBoardType(BoardType boardType) {
+                client.send(new BoardTypeMessage(boardType));
+            }
+
+            @Override
+            public void onChangeRulesType(RulesType rulesType) {
+                client.send(new RulesTypeMessage(rulesType));
             }
         });
 

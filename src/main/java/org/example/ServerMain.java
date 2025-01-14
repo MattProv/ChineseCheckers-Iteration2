@@ -1,9 +1,7 @@
 package org.example;
 
 import org.example.game_logic.StandardBoard;
-import org.example.message.serverHandlers.CommandMessageHandler;
-import org.example.message.serverHandlers.MoveMessageHandler;
-import org.example.message.serverHandlers.UsernameMessageHandler;
+import org.example.message.serverHandlers.*;
 import org.example.server.GameManager;
 import org.example.server.Server;
 import org.example.server.ServerCallbacksHandler;
@@ -15,7 +13,6 @@ public class ServerMain {
         System.out.println("Hello World from Server!");
 
         GameManager gameManager = GameManager.create();
-        gameManager.setBoard(new StandardBoard());
 
         Server server = Server.create();
         server.serverCallbacksHandler = new ServerCallbacksHandler() {
@@ -27,9 +24,13 @@ public class ServerMain {
             }
         };
 
+        gameManager.setBoard(new StandardBoard());
+
         server.AddHandler(new MoveMessageHandler(gameManager));
         server.AddHandler(new CommandMessageHandler(gameManager));
         server.AddHandler(new UsernameMessageHandler(gameManager));
+        server.AddHandler(new RuleTypeMessageHandler(gameManager));
+        server.AddHandler(new BoardTypeMessageHandler(gameManager));
         server.Bind(Config.PORT);
         server.Listen();
 

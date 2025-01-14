@@ -29,8 +29,13 @@ public final class GameManager {
 
     }
 
-    public <T extends Rules> void setRuleset(T ruleset) {
+    public void setRuleset(Rules ruleset) {
+        if(gameState.isRunning()) {
+            gameManagerCallbackHandler.onRulesNotChanged("Game already running!");
+            return;
+        }
         this.ruleset = ruleset;
+        gameManagerCallbackHandler.onRulesChanged("Rules changed!");
     }
 
     public static GameManager create()
@@ -59,6 +64,13 @@ public final class GameManager {
             gameManagerCallbackHandler.onGameNotStarted("No board set!");
             return false;
         }
+
+        if(ruleset == null) {
+            gameManagerCallbackHandler.onGameNotStarted("No ruleset set!");
+            return false;
+        }
+
+        agents.clear();
         for (User user : lobby) {
             agents.add(new Player(user, agents.size()));
         }
@@ -75,9 +87,13 @@ public final class GameManager {
     }
 
     public boolean setBoard(final Board board) {
-        if(gameState.isRunning())
+        if(gameState.isRunning()) {
+            gameManagerCallbackHandler.onBoardNotChanged("Game already running!");
             return false;
+        }
         gameState.setBoard(board);
+        gameManagerCallbackHandler.onBoardChanged("Board set!");
+
         return true;
     }
 

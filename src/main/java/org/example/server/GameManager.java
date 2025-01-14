@@ -76,6 +76,7 @@ public final class GameManager {
         }
         gameState.getBoard().generateBoard();
         gameState.getBoard().defineBases();
+        gameState.getBoard().defineNeighbours();
         ruleset.assignBasesToAgents(gameState.getBoard(), agents);
         ruleset.setupBoard(gameState.getBoard(), agents);
         gameState.setRunning(true);

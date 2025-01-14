@@ -15,7 +15,13 @@ public class Pawn implements Serializable {
     }
 
     public void updatePosition(Node newLocation){
+
         this.location = newLocation;
+        this.location.setOccupied();
+        if (this.location.getBaseId() == this.getOwner().getFinishBaseIndex()){
+            this.isBaseLocked = true;
+        }
+
     }
 
     public void makeBaseLocked(){

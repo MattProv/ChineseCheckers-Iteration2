@@ -1,24 +1,25 @@
 package org.example.game_logic;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Node implements Serializable {
-    private List<Node> neighbours = new java.util.ArrayList<>();
-    private int[] coordinates = new int[2];
+    private List<Node> neighbours = new ArrayList<>();
+    private Coordinate coordinate;
     private boolean isOccupied;
     //private Pawn occupant;
     private int baseId = -1;
 
     public Node(int xCoordinate, int yCoordinate) {
-        this.coordinates[0] = xCoordinate;
-        this.coordinates[1] = yCoordinate;
+        this.coordinate = new Coordinate(xCoordinate, yCoordinate);
         isOccupied = false;
     }
 
     public Node(int xCoordinate, int yCoordinate, int baseId) {
-        this.coordinates[0] = xCoordinate;
-        this.coordinates[1] = yCoordinate;
+        this.coordinate = new Coordinate(xCoordinate, yCoordinate);
+        this.isOccupied = false;
         this.baseId = baseId;
     }
 
@@ -72,13 +73,28 @@ public class Node implements Serializable {
     }
 
     public int getXCoordinate() {
-        return coordinates[0];
+        return coordinate.getX();
     }
     public int getYCoordinate() {
-        return coordinates[1];
+        return coordinate.getY();
     }
 
     public String printCoordinates() {
-        return "(" + coordinates[0] + "," + coordinates[1] + ")";
+        return "(" + coordinate.getX() + "," + coordinate.getY() + ")";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return Objects.equals(coordinate, node.coordinate); // Compare using coordinate object
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(coordinate); // Hash using the coordinate object
+    }
+
+
 }

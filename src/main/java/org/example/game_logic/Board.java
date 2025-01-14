@@ -52,6 +52,12 @@ public abstract class Board implements Serializable, Cloneable {
         return Pawns.get(node);
     }
 
+    public void updatePawnPosition(Node start, Node end) {
+        Pawn pawn = Pawns.get(start);
+        Pawns.remove(start);
+        Pawns.put(end, pawn);
+    }
+
     protected void assignBaseToNode(Coordinate coordinate, int baseId) {
         Nodes.get(coordinate).assignBase(baseId);
         if (Bases.containsKey(baseId)) {

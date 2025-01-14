@@ -120,12 +120,30 @@ public final class StandardBoard extends Board implements Serializable, Cloneabl
     }
 
     @Override
-    public void move(final Move move) {
-        String mv = move.getStart() + " -> " + move.getEnd();
-        moves.add(move);
-        lastMove = mv;
-        System.out.println("Move " + move.getStart() + " to " + move.getEnd());
+    public void defineNeighbours() {
+        for (Node node : getNodes().values()) {
+            int x = node.getXCoordinate();
+            int y = node.getYCoordinate();
+            node.addNeighbour(getNode(new Coordinate(x+2, y)));
+            node.addNeighbour(getNode(new Coordinate(x-2, y)));
+            node.addNeighbour(getNode(new Coordinate(x+1, y+1)));
+            node.addNeighbour(getNode(new Coordinate(x-1, y+1)));
+            node.addNeighbour(getNode(new Coordinate(x+1, y-1)));
+            node.addNeighbour(getNode(new Coordinate(x-1, y-1)));
+        }
     }
+
+    @Override
+    public void move(final Move move) {
+        if (this.getPawn(this.getNodes().get(move.getStart())) == null) {
+            throw new IllegalStateException("No pawn at the starting node!");
+        }
+        this.getPawn(this.getNodes().get(move.getStart())).updatePosition(move.getEnd());
+        moves.add(move);
+        lastMove = move.getStart() + " -> " + move.getEnd();
+        System.out.println("Move " + lastMove);
+    }
+
 
     @Override
     public void showBoard() {
@@ -135,6 +153,7 @@ public final class StandardBoard extends Board implements Serializable, Cloneabl
             System.out.println("Move " + move.getStart() + " to " + move.getEnd());
         }
     }
+
 
     @Override
     public StandardBoard clone() throws CloneNotSupportedException {

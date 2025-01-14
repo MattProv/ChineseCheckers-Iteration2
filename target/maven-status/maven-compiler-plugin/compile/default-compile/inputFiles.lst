@@ -16,6 +16,7 @@
 /home/wkk/ChineseCheckers-Iteration2/src/main/java/org/example/client/GUI/NodeRepresentation.java
 /home/wkk/ChineseCheckers-Iteration2/src/main/java/org/example/game_logic/Agent.java
 /home/wkk/ChineseCheckers-Iteration2/src/main/java/org/example/game_logic/Board.java
+/home/wkk/ChineseCheckers-Iteration2/src/main/java/org/example/game_logic/ChaosRules.java
 /home/wkk/ChineseCheckers-Iteration2/src/main/java/org/example/game_logic/Coordinate.java
 /home/wkk/ChineseCheckers-Iteration2/src/main/java/org/example/game_logic/Move.java
 /home/wkk/ChineseCheckers-Iteration2/src/main/java/org/example/game_logic/Node.java

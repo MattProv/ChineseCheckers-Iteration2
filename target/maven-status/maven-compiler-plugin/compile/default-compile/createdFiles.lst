@@ -42,6 +42,7 @@ org/example/client/GUI/LobbyScreen$CallbacksHandler.class
 org/example/server/ServerCallbacksHandler.class
 org/example/message/clientHandlers/GameStateMessageHandler.class
 org/example/GameState.class
+org/example/game_logic/ChaosRules.class
 org/example/game_logic/Pawn.class
 org/example/message/serverHandlers/MoveMessageHandler.class
 org/example/message/UsernameMessage.class

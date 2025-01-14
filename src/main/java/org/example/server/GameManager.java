@@ -64,6 +64,7 @@ public final class GameManager {
         }
         gameState.getBoard().generateBoard();
         gameState.getBoard().defineBases();
+        gameState.getBoard().defineNeighbours();
         this.ruleset.assignBasesToAgents(gameState.getBoard(), agents);
         this.ruleset.setupBoard(gameState.getBoard(), agents);
         gameState.setRunning(true);

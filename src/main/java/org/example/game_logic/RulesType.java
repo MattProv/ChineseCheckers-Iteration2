@@ -11,6 +11,17 @@ public enum RulesType {
         public String toString() {
             return "Standard";
         }
+    },
+    CHAOS{
+        @Override
+        public Rules createRules() {
+            return new ChaosRules();
+        }
+
+        @Override
+        public String toString() {
+            return "Chaos";
+        }
     };
 
     public abstract Rules createRules();

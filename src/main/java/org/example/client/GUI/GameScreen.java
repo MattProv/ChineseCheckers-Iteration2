@@ -90,7 +90,7 @@ public class GameScreen extends BorderPane {
 
         GridPane buttons = getButtons();
 
-        setBottom(buttons);
+        setBottom(new VBox(buttons, serverMessage));
 
         widthProperty().addListener(_ -> updateBoard());
 
@@ -112,14 +112,9 @@ public class GameScreen extends BorderPane {
 
         endTurnButton = new Button("End turn");
         endTurnButton.setDisable(true);
-        endTurnButton.setOnAction(_ -> {
-            callbacksHandler.onEndTurn();
-        });
+        endTurnButton.setOnAction(_ -> callbacksHandler.onEndTurn());
 
         Button quitButton = new Button("Quit");
-        quitButton.setOnAction(_ -> {
-            callbacksHandler.onQuit();
-        });
 
         GridPane buttons = new GridPane();
         buttons.add(redrawButton, 0, 0);

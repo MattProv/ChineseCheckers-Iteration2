@@ -9,7 +9,7 @@ public class Node implements Serializable {
     private List<Node> neighbours = new ArrayList<>();
     private Coordinate coordinate;
     private boolean isOccupied;
-    //private Pawn occupant;
+    private Pawn occupant = null;
     private int baseId = -1;
 
     public Node(int xCoordinate, int yCoordinate) {
@@ -36,17 +36,17 @@ public class Node implements Serializable {
         return isOccupied;
     }
 
-    public void setOccupied() {
+    public void setOccupied(Pawn pawn) {
         this.isOccupied = true;
-        //this.occupant = occupant;
+        this.occupant = occupant;
     }
 
     public void setUnoccupied(Pawn occupant) {
-        //if (this.occupant != occupant) {
-        //    System.out.println("Pawn tried to free a node that wasn't occupied by it!");
-        //}
+        if (this.occupant != occupant) {
+           return;
+        }
         this.isOccupied = false;
-        //this.occupant = null;
+        this.occupant = null;
     }
 
     public void addNeighbour(Node neighbour) {

@@ -99,6 +99,10 @@ public final class GameManager {
     public boolean makeMove(final Player player, final Move move) {
         if (!gameState.isRunning())
             return false;
+        if (gameState.getBoard().getPawn(move.getStart()).getOwner().equals(player)) {
+            System.out.println("Can't move another player's pawn!");
+            return false;
+        }
         if (this.ruleset.validateMove(gameState.getBoard(), move)) {
             gameState.getBoard().move(move);
             synchronizeGameState();

@@ -15,7 +15,7 @@ public class Pawn {
     public void updatePosition(Node newLocation){
 
         this.location = newLocation;
-        this.location.setOccupied();
+        this.location.setOccupied(this);
         if (this.location.getBaseId() == this.getOwner().getFinishBaseIndex()){
             this.isBaseLocked = true;
         }

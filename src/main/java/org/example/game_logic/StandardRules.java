@@ -47,34 +47,47 @@ public class StandardRules implements Rules<StandardBoard> {
                 return false;
             }
         }
-        // A pawn can move to an empty neighbouring node
-        if (move.getStart().getNeighbours().contains(move.getEnd())) {
+        // If player commited a normal step already, he can't make another one
+        if (board.getPawn(move.getStart()).getOwner().isStepLocked()) {
+            System.out.println("Can't make another step!");
+        }
+        // A pawn can step to an empty neighbouring node, it it isn't stepLocked
+        else if (move.getStart().getNeighbours().contains(move.getEnd())) {
             if (move.getEnd().getIsOccupied()) {
                 System.out.println("Can't move to an occupied node");
                 return false;
             }
             System.out.println("Valid move to an empty neighbour");
+            board.getPawn(move.getStart()).getOwner().hopLock();
+            board.getPawn(move.getStart()).getOwner().stepLock();
             return true;
         }
-        // A pawn can hop over a neighbouring pawn (horizontal hopping)
-        if (move.getStart().getYCoordinate() == move.getEnd().getYCoordinate()) {
-            int midX = (move.getStart().getXCoordinate() + move.getEnd().getXCoordinate()) / 2;
-            if (Math.abs(move.getStart().getXCoordinate() - move.getEnd().getXCoordinate()) == 4 &&
-                    board.getNode(new Coordinate(midX, move.getStart().getYCoordinate())).getIsOccupied()) {
-                System.out.println("Valid horizontal hop");
-                return true;
+        if (board.getPawn(move.getStart()).getOwner().isHopLocked()) {
+            System.out.println("Player can't make a hop after taking a step!");
+            return false;
+        }
+        else {
+            // A pawn can hop over a neighbouring pawn (horizontal hopping)
+            if (move.getStart().getYCoordinate() == move.getEnd().getYCoordinate()) {
+                int midX = (move.getStart().getXCoordinate() + move.getEnd().getXCoordinate()) / 2;
+                if (Math.abs(move.getStart().getXCoordinate() - move.getEnd().getXCoordinate()) == 4 &&
+                        board.getNode(new Coordinate(midX, move.getStart().getYCoordinate())).getIsOccupied()) {
+                    System.out.println("Valid horizontal hop");
+                    board.getPawn(move.getStart()).getOwner().stepLock();
+                    return true;
+                }
+            }
+            // A pawn can hop over a neighbouring pawn (diagonal hopping)
+            if (Math.abs(move.getStart().getYCoordinate() - move.getEnd().getYCoordinate()) == 2) {
+                int midX = (move.getStart().getXCoordinate() + move.getEnd().getXCoordinate()) / 2;
+                int midY = (move.getStart().getYCoordinate() + move.getEnd().getYCoordinate()) / 2;
+                if (board.getNode(new Coordinate(midX, midY)).getIsOccupied()) {
+                    System.out.println("Valid diagonal hop");
+                    board.getPawn(move.getStart()).getOwner().stepLock();
+                    return true;
+                }
             }
         }
-        // A pawn can hop over a neighbouring pawn (diagonal hopping)
-        if (Math.abs(move.getStart().getYCoordinate() - move.getEnd().getYCoordinate()) == 2) {
-            int midX = (move.getStart().getXCoordinate() + move.getEnd().getXCoordinate()) / 2;
-            int midY = (move.getStart().getYCoordinate() + move.getEnd().getYCoordinate()) / 2;
-            if (board.getNode(new Coordinate(midX, midY)).getIsOccupied()) {
-                System.out.println("Valid diagonal hop");
-                return true;
-            }
-        }
-
         // For everything else, discard as an invalid move
         System.out.println("Invalid move");
         return false;

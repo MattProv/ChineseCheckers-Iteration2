@@ -12,6 +12,8 @@ public class Agent {
     Color color;
     private int startBaseIndex;
     private int finishBaseIndex;
+    private boolean stepLocked = false;
+    private boolean hopLocked = false;
 
     private boolean isPlayer = false;
 
@@ -50,5 +52,26 @@ public class Agent {
 
     public Integer getId() {
         return id;
+    }
+
+    public boolean isStepLocked() {
+        return stepLocked;
+    }
+
+    public void stepLock() {
+        this.stepLocked = true;
+    }
+
+    public boolean isHopLocked() {
+        return hopLocked;
+    }
+
+    public void hopLock() {
+        this.hopLocked = true;
+    }
+
+    public void liftLocks() {
+        this.stepLocked = false;
+        this.hopLocked = false;
     }
 }

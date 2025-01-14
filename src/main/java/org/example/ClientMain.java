@@ -2,7 +2,9 @@ package org.example;
 
 import org.example.client.Client;
 import org.example.client.CommandProcessor;
-import org.example.message.*;
+import org.example.message.CommandMessage;
+import org.example.message.Commands;
+import org.example.message.StringMessage;
 import org.example.message.clientHandlers.GameStateMessageHandler;
 
 import java.util.InputMismatchException;
@@ -126,12 +128,14 @@ public class ClientMain {
                                     input = scanner.nextLine();
                                     parts = input.trim().split("\\s+");
                                 }
-                                MoveMessage moveMessage = new MoveMessage(parts[0], parts[1], parts[2], parts[3]);
-                                if (client.send(moveMessage)) {
-                                    System.out.println("Move sent successfully.");
-                                } else {
-                                    System.out.println("Failed to send the move.");
-                                }
+                                // TODO : Check if the move is valid, get the start and end coordinates
+//
+//                                MoveMessage moveMessage = new MoveMessage(parts[0], parts[1], parts[2], parts[3]);
+//                                if (client.send(moveMessage)) {
+//                                    System.out.println("Move sent successfully.");
+//                                } else {
+//                                    System.out.println("Failed to send the move.");
+//                                }
                             }
                         }
                         break;

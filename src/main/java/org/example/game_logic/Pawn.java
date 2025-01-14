@@ -1,6 +1,8 @@
 package org.example.game_logic;
 
-public class Pawn {
+import java.io.Serializable;
+
+public class Pawn implements Serializable {
     int id;
     private Agent owner;
     private boolean isBaseLocked = false;

@@ -1,7 +1,6 @@
 package org.example.server;
 
 import org.example.GameState;
-import org.example.Player;
 import org.example.game_logic.*;
 import org.example.message.GameStateMessage;
 import org.example.message.UserlistMessage;
@@ -76,8 +75,8 @@ public final class GameManager {
         }
         gameState.getBoard().generateBoard();
         gameState.getBoard().defineBases();
-        this.ruleset.assignBasesToAgents(gameState.getBoard(), agents);
-        this.ruleset.setupBoard(gameState.getBoard(), agents);
+        ruleset.assignBasesToAgents(gameState.getBoard(), agents);
+        ruleset.setupBoard(gameState.getBoard(), agents);
         gameState.setRunning(true);
 
         synchronizeGameState();
@@ -182,14 +181,18 @@ public final class GameManager {
             lobby.remove(user);
     }
 
-    public boolean makeMoveFromCoordinates(final Player player, String start, String end) {
-        String[] parts = start.split(" ");
-        String[] partsEnd = end.split(" ");
-        int startX = Integer.parseInt(parts[0]);
-        int startY = Integer.parseInt(parts[1]);
-        int endX = Integer.parseInt(partsEnd[0]);
-        int endY = Integer.parseInt(partsEnd[1]);
-        Move move = new Move (gameState.getBoard().getNode(new Coordinate(startX, startY)), gameState.getBoard().getNode(new Coordinate(endX, endY)) );
+    public boolean makeMoveFromCoordinates(final Player player, Coordinate start, Coordinate end) {
+        Move move = new Move (gameState.getBoard().getNode(start), gameState.getBoard().getNode(end) );
         return makeMove(player, move);
+    }
+
+
+    public void endTurn(Agent agent) {
+        if(agent != agents.get(currentTurn))
+            return;
+        currentTurn = (currentTurn + 1) % agents.size();
+        synchronizeGameState();
+
+        agents.get(currentTurn).promptMove(gameState.getBoard());
     }
 }

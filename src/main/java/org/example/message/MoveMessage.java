@@ -1,36 +1,27 @@
 package org.example.message;
 
-import org.example.game_logic.Move;
-import org.example.game_logic.Node;
-import org.example.game_logic.Pawn;
-
-import java.util.Arrays;
+import org.example.game_logic.Coordinate;
 
 public class MoveMessage extends Message {
-    private final String message; // the message content
+    private final Coordinate start;
+    private final Coordinate end;
 
-    public MoveMessage(String startX, String startY, String endX, String endY)
-    {
+    public MoveMessage(Coordinate start, Coordinate end) {
         super(MessageType.MOVE);
-        this.message = startX + " " + startY + " " + endX + " " + endY;
-    }
-
-
-    public String getMessage()
-    {
-        return this.message;
+        this.start = start;
+        this.end = end;
     }
 
     public String toString()
     {
-        return Arrays.toString(new String[] {this.message.toString()});
+        return start.toString() + " " + end.toString();
     }
 
-    public String getStart() {
-        return message.split(" ")[0] + " " + message.split(" ")[1];
+    public Coordinate getStart() {
+        return start;
     }
 
-    public String getEnd() {
-        return message.split(" ")[2] + " " + message.split(" ")[3];
+    public Coordinate getEnd() {
+        return end;
     }
 }

@@ -10,5 +10,5 @@ public enum MessageType
     USERNAME,
     USERLIST,
     RULES_TYPE,
-    BOARD_TYPE,
+    BOARD_TYPE, END_TURN, PROMPT_MOVE,
 }

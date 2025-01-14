@@ -1,6 +1,7 @@
-package org.example;
+package org.example.game_logic;
 
-import org.example.game_logic.Agent;
+import org.example.message.PromptMoveMessage;
+import org.example.server.Server;
 import org.example.server.User;
 
 public final class Player extends Agent {
@@ -13,5 +14,10 @@ public final class Player extends Agent {
 
     public User getOwner() {
         return owner;
+    }
+
+    @Override
+    public void promptMove(Board board) {
+        Server.getServer().Send(new PromptMoveMessage(), owner.getConnection());
     }
 }

@@ -1,13 +1,11 @@
 package org.example.game_logic;
 
-import org.example.Player;
-
 import java.awt.*;
+import java.io.Serializable;
 import java.util.List;
 
-public class Agent {
+public class Agent implements Serializable{
     int id;
-    private Player owner;
     private List<Pawn> pawns;
     Color color;
     private int startBaseIndex;
@@ -22,7 +20,6 @@ public class Agent {
 
     public Agent(int id, int startBaseIndex, int finishBaseIndex) {
         this.id = id;
-        this.owner = owner;
         this.startBaseIndex = startBaseIndex;
         this.finishBaseIndex = finishBaseIndex;
     }
@@ -50,5 +47,9 @@ public class Agent {
 
     public Integer getId() {
         return id;
+    }
+
+    public void promptMove(Board board) {
+
     }
 }

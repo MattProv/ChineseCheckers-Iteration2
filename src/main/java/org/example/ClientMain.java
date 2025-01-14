@@ -121,12 +121,12 @@ public class ClientMain {
                                 break;
                             } else {
                                 parts = input.trim().split("\\s+");
-                                while (parts.length != 2) {
+                                while (parts.length != 4) {
                                     System.out.print("Incorrect input. Provide start and end square of your move.");
                                     input = scanner.nextLine();
                                     parts = input.trim().split("\\s+");
                                 }
-                                MoveMessage moveMessage = new MoveMessage(parts[0], parts[1]);
+                                MoveMessage moveMessage = new MoveMessage(parts[0], parts[1], parts[2], parts[3]);
                                 if (client.send(moveMessage)) {
                                     System.out.println("Move sent successfully.");
                                 } else {

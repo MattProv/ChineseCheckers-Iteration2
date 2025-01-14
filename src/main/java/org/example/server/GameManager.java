@@ -21,7 +21,7 @@ public final class GameManager {
     private List<Agent> agents = new ArrayList<>();
     private int currentTurn = 0;
 
-    private Rules ruleset = new StandardRules();
+    private Rules ruleset = new ChaosRules();
     private final GameManagerCallbackHandler gameManagerCallbackHandler = new GameManagerCallbackHandler();
 
     private GameManager()

@@ -1,11 +1,8 @@
 package org.example.server;
 
-import org.example.game_logic.Agent;
-import org.example.game_logic.Board;
 import org.example.GameState;
 import org.example.Player;
-import org.example.game_logic.Move;
-import org.example.game_logic.Rules;
+import org.example.game_logic.*;
 import org.example.message.GameStateMessage;
 
 import java.util.ArrayList;
@@ -18,7 +15,7 @@ public final class GameManager {
 
     //RUNTIME
     private final GameState gameState = new GameState();
-    private final List<Player> players = new ArrayList<Player>();
+    private final List<Player> players = new ArrayList<>();
     private List<Agent> agents = new ArrayList<>();
     private Rules ruleset;
     private final GameManagerCallbackHandler gameManagerCallbackHandler = new GameManagerCallbackHandler();
@@ -110,7 +107,7 @@ public final class GameManager {
         int startY = Integer.parseInt(parts[1]);
         int endX = Integer.parseInt(partsEnd[0]);
         int endY = Integer.parseInt(partsEnd[1]);
-        Move move = new Move (gameState.getBoard().getNode(startX, startY), gameState.getBoard().getNode(endX, endY) );
+        Move move = new Move (gameState.getBoard().getNode(new Coordinate(startX, startY)), gameState.getBoard().getNode(new Coordinate(endX, endY)) );
         return makeMove(player, move);
     }
 

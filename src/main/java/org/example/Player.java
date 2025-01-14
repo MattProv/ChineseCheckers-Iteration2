@@ -6,8 +6,8 @@ import org.example.server.User;
 public final class Player extends Agent {
     private final User owner;
 
-    public Player(final User owner, int id, int startBaseIndex, int finishBaseIndex) {
-        super(id, startBaseIndex, finishBaseIndex, true);
+    public Player(final User owner, int id) {
+        super(id, true);
         this.owner = owner;
     }
 

@@ -59,7 +59,7 @@ public class LoginScreen extends BorderPane {
         portTextField.setText(Integer.toString(Config.PORT));
 
         Button connectButton = new Button("Connect");
-        connectButton.setOnAction(_ -> {
+        connectButton.setOnAction(ActionEvent -> {
             String username = usernameTextField.getText();
             String ip = ipTextField.getText();
             String portString = portTextField.getText();

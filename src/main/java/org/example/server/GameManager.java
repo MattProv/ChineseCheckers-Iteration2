@@ -21,7 +21,7 @@ public final class GameManager {
     private List<Agent> agents = new ArrayList<>();
     private int currentTurn = 0;
 
-    private Rules ruleset;
+    private Rules ruleset = new StandardRules();
     private final GameManagerCallbackHandler gameManagerCallbackHandler = new GameManagerCallbackHandler();
 
     private GameManager()
@@ -59,7 +59,9 @@ public final class GameManager {
             gameManagerCallbackHandler.onGameNotStarted("No board set!");
             return false;
         }
-
+        for (User user : lobby) {
+            agents.add(new Player(user, agents.size()));
+        }
         gameState.getBoard().generateBoard();
         gameState.getBoard().defineBases();
         this.ruleset.assignBasesToAgents(gameState.getBoard(), agents);

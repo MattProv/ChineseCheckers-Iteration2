@@ -92,32 +92,32 @@ public class GameScreen extends BorderPane {
 
         setBottom(buttons);
 
-        widthProperty().addListener(_ -> updateBoard());
+        widthProperty().addListener(Observable -> updateBoard());
 
-        heightProperty().addListener(_ -> updateBoard());
+        heightProperty().addListener(Observable -> updateBoard());
 
         getStylesheets().add(Objects.requireNonNull(getClass().getResource("/gamestyles.css")).toExternalForm());
     }
 
     private GridPane getButtons() {
         Button redrawButton = new Button("Redraw");
-        redrawButton.setOnAction(_ -> updateBoard());
+        redrawButton.setOnAction(ActionEvent -> updateBoard());
 
         moveButton = new Button("Move");
         moveButton.setDisable(true);
-        moveButton.setOnAction(_ -> {
+        moveButton.setOnAction(ActionEvent -> {
             callbacksHandler.onMove(start, end);
             boardPane.cancelMove();
         });
 
         endTurnButton = new Button("End turn");
         endTurnButton.setDisable(true);
-        endTurnButton.setOnAction(_ -> {
+        endTurnButton.setOnAction(ActionEvent -> {
             callbacksHandler.onEndTurn();
         });
 
         Button quitButton = new Button("Quit");
-        quitButton.setOnAction(_ -> {
+        quitButton.setOnAction(ActionEvent -> {
             callbacksHandler.onQuit();
         });
 

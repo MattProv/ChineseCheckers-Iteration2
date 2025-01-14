@@ -135,7 +135,7 @@ public class Client implements Runnable{
             socket.close();
             socket = null;
         }
-        catch (SocketException _) {
+        catch (SocketException e) {
         }
         catch (IOException e)
         {
@@ -162,7 +162,7 @@ public class Client implements Runnable{
 
             return true;
         }
-        catch (SocketException _) {
+        catch (SocketException e) {
             return false;
         }
         catch (Exception e)
@@ -183,7 +183,7 @@ public class Client implements Runnable{
             System.out.println("\nConnection to the server lost");
             return null;
         }
-        catch (SocketException _) {
+        catch (SocketException e) {
             return null;
         }
         catch (Exception e)

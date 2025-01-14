@@ -15,7 +15,7 @@ public class Agent {
 
     private boolean isPlayer = false;
 
-    public Agent(int id, int startBaseIndex, int finishBaseIndex, boolean isPlayer) {
+    public Agent(int id, boolean isPlayer) {
         this.id = id;
         this.isPlayer = isPlayer;
     }

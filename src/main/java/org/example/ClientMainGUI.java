@@ -116,7 +116,7 @@ public class ClientMainGUI extends Application {
             }
         });
 
-        primaryStage.setOnCloseRequest(_ -> {
+        primaryStage.setOnCloseRequest(WindowEvent -> {
             client.Disconnect();
 
             Platform.exit();

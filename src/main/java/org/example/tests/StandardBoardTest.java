@@ -58,7 +58,7 @@ public class StandardBoardTest {
     }
 
     @Test
-    public void testMove() {
+    public void testNeighbourMove() {
         Coordinate start = new Coordinate(12, 0);
         Coordinate end = new Coordinate(11, 1);
         Move move = new Move(board.getNode(start), board.getNode(end));
@@ -69,6 +69,46 @@ public class StandardBoardTest {
             board.move(new Move(board.getNode(start), board.getNode(end)));
         assertEquals(pom, board.getPawn(board.getNode(end)));
     }
+
+    @Test
+    public void testInvalidCoordinateMove() {
+        Coordinate start = new Coordinate(12, 0);
+        Coordinate end = new Coordinate(11, 3);
+        Move move = new Move(board.getNode(start), board.getNode(end));
+        Agent agent = new Agent(1, true);
+        board.addPawn(start, agent);
+        Pawn pom = board.getPawn(board.getNode(start));
+        assertFalse(rules.validateMove(board, move));
+    }
+
+    @Test
+    public void testInvalidOccupiedMove() {
+        Coordinate start = new Coordinate(12, 0);
+        Coordinate end = new Coordinate(11, 3);
+        Move move = new Move(board.getNode(start), board.getNode(end));
+        Agent agent = new Agent(1, true);
+        board.addPawn(start, agent);
+        board.addPawn(end, agent);
+        Pawn pom = board.getPawn(board.getNode(start));
+        assertFalse(rules.validateMove(board, move));
+    }
+
+    @Test
+    public void testValidHopMove() {
+        Coordinate start = new Coordinate(12, 0);
+        Coordinate occupiant = new Coordinate(11, 1);
+        Coordinate end = new Coordinate(10, 2);
+        Move move = new Move(board.getNode(start), board.getNode(end));
+        Agent agent = new Agent(1, true);
+        board.addPawn(start, agent);
+        board.addPawn(board.getNode(occupiant), agent);
+        Pawn pom = board.getPawn(board.getNode(start));
+        if (rules.validateMove(board, move))
+            board.move(new Move(board.getNode(start), board.getNode(end)));
+        assertEquals(pom, board.getPawn(board.getNode(end)));
+    }
+
+
 
     @Test
     public void testShowBoard() {

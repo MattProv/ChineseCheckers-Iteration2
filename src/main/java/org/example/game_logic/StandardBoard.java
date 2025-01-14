@@ -135,10 +135,11 @@ public final class StandardBoard extends Board implements Serializable, Cloneabl
 
     @Override
     public void move(final Move move) {
-        if (this.getPawn(this.getNodes().get(move.getStart())) == null) {
+        if (this.getPawn(move.getStart()) == null) {
             throw new IllegalStateException("No pawn at the starting node!");
         }
-        this.getPawn(this.getNodes().get(move.getStart())).updatePosition(move.getEnd());
+        this.getPawn(move.getStart()).updatePosition(move.getEnd());
+        this.updatePawnPosition(move.getStart(), move.getEnd());
         moves.add(move);
         lastMove = move.getStart() + " -> " + move.getEnd();
         System.out.println("Move " + lastMove);

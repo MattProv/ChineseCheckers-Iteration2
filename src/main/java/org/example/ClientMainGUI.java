@@ -142,7 +142,7 @@ public class ClientMainGUI extends Application {
         };
         client.AddHandler(new GameStateMessageGUIHandler(gameState, gameScreen));
         client.AddHandler(new UserlistMessageHandler(lobbyScreen, gameScreen));
-        client.AddHandler(new StringMessageGUIHandler(lobbyScreen));
+        client.AddHandler(new StringMessageGUIHandler(lobbyScreen, gameScreen));
         client.AddHandler(new PromptMoveMessageHandler(gameScreen));
         client.AddHandler(new MessageHandler(MessageType.GAMESTATE) {
             @Override

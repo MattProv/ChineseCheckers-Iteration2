@@ -13,6 +13,7 @@ public class Agent implements Serializable{
     private int finishBaseIndex;
     private boolean stepLocked = false;
     private boolean hopLocked = false;
+    private Pawn currentPawn = null;
 
     private boolean isPlayer = false;
 
@@ -70,9 +71,18 @@ public class Agent implements Serializable{
         this.hopLocked = true;
     }
 
+    public void setCurrentPawn(Pawn currentPawn) {
+        this.currentPawn = currentPawn;
+    }
+
+    public Pawn getCurrentPawn() {
+        return currentPawn;
+    }
+
     public void liftLocks() {
         this.stepLocked = false;
         this.hopLocked = false;
+        this.currentPawn = null;
     }
 
     public void promptMove(Board board) {

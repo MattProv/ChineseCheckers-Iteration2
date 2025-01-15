@@ -126,6 +126,11 @@ public final class GameManager {
             return false;
         }
 
+        if (gameState.getBoard().getPawn(move.getStart()) == null) {
+            gameManagerCallbackHandler.onInvalidMove(agent, move, "There's no pawn there to move!");
+            return false;
+        }
+
         if (gameState.getBoard().getPawn(move.getStart()).getOwner() != agent) {
             gameManagerCallbackHandler.onInvalidMove(agent, move, "You can't move another player's pawns!");
             return false;

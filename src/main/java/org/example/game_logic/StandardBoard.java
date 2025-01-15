@@ -3,12 +3,22 @@ package org.example.game_logic;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Represents a standard board for the game, implementing logic for board generation, moves, and state management.
+ * This class extends the abstract {@link Board} and provides specific functionality for a predefined board setup.
+ * It supports serialization and cloning.
+ */
 public final class StandardBoard extends Board implements Serializable, Cloneable {
-    private static final long serialVersionUID = 1L; // Opcjonalne, ale zalecane
 
-    private ArrayList<Move> moves = new ArrayList<>();
-    private String lastMove = null;
+    private static final long serialVersionUID = 1L; // Recommended for Serializable classes
 
+    private ArrayList<Move> moves = new ArrayList<>(); // Tracks all moves made on the board
+    private String lastMove = null; // Tracks the last move made
+
+    /**
+     * Generates the nodes of the board and initializes their coordinates.
+     * The board is created with a hexagonal pattern using predefined coordinates.
+     */
     @Override
     public void generateBoard() {
         moves.clear();
@@ -44,6 +54,10 @@ public final class StandardBoard extends Board implements Serializable, Cloneabl
         this.addNode(new Coordinate(12, 16));
     }
 
+    /**
+     * Defines the bases on the board and assigns them to specific nodes.
+     * Bases are used to represent player starting and finishing zones.
+     */
     @Override
     public void defineBases() {
         // BASE 0, counting clockwise from the bottom
@@ -119,20 +133,30 @@ public final class StandardBoard extends Board implements Serializable, Cloneabl
         assignBaseToNode(new Coordinate(21,7),5);
     }
 
+    /**
+     * Defines neighbors for each node on the board based on predefined offsets.
+     * Neighbors are calculated relative to each node's position.
+     */
     @Override
     public void defineNeighbours() {
         for (Node node : getNodes().values()) {
             int x = node.getXCoordinate();
             int y = node.getYCoordinate();
-            node.addNeighbour(getNode(new Coordinate(x+2, y)));
-            node.addNeighbour(getNode(new Coordinate(x-2, y)));
-            node.addNeighbour(getNode(new Coordinate(x+1, y+1)));
-            node.addNeighbour(getNode(new Coordinate(x-1, y+1)));
-            node.addNeighbour(getNode(new Coordinate(x+1, y-1)));
-            node.addNeighbour(getNode(new Coordinate(x-1, y-1)));
+            node.addNeighbour(getNode(new Coordinate(x + 2, y)));
+            node.addNeighbour(getNode(new Coordinate(x - 2, y)));
+            node.addNeighbour(getNode(new Coordinate(x + 1, y + 1)));
+            node.addNeighbour(getNode(new Coordinate(x - 1, y + 1)));
+            node.addNeighbour(getNode(new Coordinate(x + 1, y - 1)));
+            node.addNeighbour(getNode(new Coordinate(x - 1, y - 1)));
         }
     }
 
+    /**
+     * Moves a pawn from the start node to the end node on the board.
+     *
+     * @param move The {@link Move} object representing the start and end coordinates of the move.
+     * @throws IllegalStateException if no pawn exists at the starting node.
+     */
     @Override
     public void move(final Move move) {
         if (this.getPawn(move.getStart()) == null) {
@@ -145,7 +169,10 @@ public final class StandardBoard extends Board implements Serializable, Cloneabl
         System.out.println("Move " + lastMove);
     }
 
-
+    /**
+     * Displays the current state of the board, including the last move and all past moves.
+     * Mainly used for debugging or visualization purposes.
+     */
     @Override
     public void showBoard() {
         System.out.println("Last move: " + lastMove);
@@ -155,13 +182,17 @@ public final class StandardBoard extends Board implements Serializable, Cloneabl
         }
     }
 
-
+    /**
+     * Creates and returns a deep copy of the StandardBoard.
+     *
+     * @return A cloned instance of the current board.
+     * @throws CloneNotSupportedException if cloning fails.
+     */
     @Override
     public StandardBoard clone() throws CloneNotSupportedException {
         StandardBoard cloned = (StandardBoard) super.clone();
-        cloned.moves = new ArrayList<>(this.moves); // kopiujemy listę
-        cloned.lastMove = this.lastMove; // kopiujemy ostatni ruch
+        cloned.moves = new ArrayList<>(this.moves); // Copy moves list
+        cloned.lastMove = this.lastMove; // Copy the last move
         return cloned;
     }
-
 }

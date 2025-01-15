@@ -3,8 +3,6 @@ package org.example.game_logic;
 import java.util.List;
 import java.util.Set;
 
-import static java.lang.Math.abs;
-
 public class StandardRules implements Rules<StandardBoard> {
 
     private static final Set<Integer> ALLOWED_PLAYER_COUNTS = Set.of(2, 3, 4, 6);
@@ -82,7 +80,10 @@ public class StandardRules implements Rules<StandardBoard> {
             if (Math.abs(move.getStart().getYCoordinate() - move.getEnd().getYCoordinate()) == 2) {
                 int midX = (move.getStart().getXCoordinate() + move.getEnd().getXCoordinate()) / 2;
                 int midY = (move.getStart().getYCoordinate() + move.getEnd().getYCoordinate()) / 2;
-                if (board.getNode(new Coordinate(midX, midY)).getIsOccupied()) {
+                Node midNode = board.getNode(new Coordinate(midX, midY));
+                if(midNode == null)
+                    return false;
+                if (midNode.getIsOccupied()) {
                     System.out.println("Valid diagonal hop");
                     board.getPawn(move.getStart()).getOwner().stepLock();
                     return true;

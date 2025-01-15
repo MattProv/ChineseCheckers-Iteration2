@@ -141,6 +141,8 @@ public final class GameManager {
             gameManagerCallbackHandler.onValidMove(agent, move, "Valid move!");
             return true;
         }
+        else
+            System.out.println("Validation failed!");
         gameManagerCallbackHandler.onInvalidMove(agent, move, "Invalid move!");
         return false;
     }

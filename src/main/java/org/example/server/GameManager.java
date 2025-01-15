@@ -219,6 +219,13 @@ public final class GameManager {
         if(agent != agents.get(currentTurn))
             return;
         agent.liftLocks();
+
+        if(ruleset.checkWinCondition(agents.get(currentTurn)))
+        {
+            gameManagerCallbackHandler.onGameEnded(agents.get(currentTurn));
+            return;
+        }
+
         currentTurn = (currentTurn + 1) % agents.size();
         synchronizeGameState();
 

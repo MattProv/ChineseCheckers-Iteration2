@@ -41,58 +41,74 @@ public class StandardRules implements Rules<StandardBoard> {
 
     @Override
     public boolean validateMove(StandardBoard board, Move move) {
-        if(board.getPawn(move.getStart()) == null)
-            return false;
-        // A pawn can't leave it's base after it enters it
-        if (board.getPawn(move.getStart()).isBaseLocked()) {
-            if (move.getEnd().getBaseId() != board.getPawn(move.getStart()).getOwner().getFinishBaseIndex()) {
+        Pawn startPawn = board.getPawn(move.getStart());
+        Node startNode = move.getStart();
+        Node endNode = move.getEnd();
+        Agent owner = startPawn.getOwner();
+
+        // Check if the owner already has a current pawn
+        if (owner.getCurrentPawn() != null) {
+            if (owner.getCurrentPawn() != startPawn) {
+                System.out.println("Can't move multiple pawns in one move!");
                 return false;
             }
         }
-        // If player commited a normal step already, he can't make another one
-        if (board.getPawn(move.getStart()).getOwner().isStepLocked()) {
+
+        // A pawn can't leave its base after it enters it
+        if (startPawn.isBaseLocked()) {
+            if (endNode.getBaseId() != owner.getFinishBaseIndex()) {
+                return false;
+            }
         }
-        // A pawn can step to an empty neighbouring node, it it isn't stepLocked
-        else if (move.getStart().getNeighbours().contains(move.getEnd())) {
-            if (move.getEnd().getIsOccupied()) {
+
+        // If the player committed a normal step already, they can't make another one
+        if (owner.isStepLocked()) {
+            return false;
+        } else if (startNode.getNeighbours().contains(endNode)) {
+            if (endNode.getIsOccupied()) {
                 System.out.println("Can't move to an occupied node");
                 return false;
             }
             System.out.println("Valid move to an empty neighbour");
-            board.getPawn(move.getStart()).getOwner().hopLock();
-            board.getPawn(move.getStart()).getOwner().stepLock();
+            owner.hopLock();
+            owner.stepLock();
             return true;
         }
-        if (board.getPawn(move.getStart()).getOwner().isHopLocked()) {
+
+        if (owner.isHopLocked()) {
             System.out.println("Player can't make a hop after taking a step!");
             return false;
-        }
-        else {
+        } else {
             // A pawn can hop over a neighbouring pawn (horizontal hopping)
-            if (move.getStart().getYCoordinate() == move.getEnd().getYCoordinate()) {
-                int midX = (move.getStart().getXCoordinate() + move.getEnd().getXCoordinate()) / 2;
-                if (Math.abs(move.getStart().getXCoordinate() - move.getEnd().getXCoordinate()) == 4 &&
-                        board.getNode(new Coordinate(midX, move.getStart().getYCoordinate())).getIsOccupied()) {
+            if (startNode.getYCoordinate() == endNode.getYCoordinate()) {
+                int midX = (startNode.getXCoordinate() + endNode.getXCoordinate()) / 2;
+                if (Math.abs(startNode.getXCoordinate() - endNode.getXCoordinate()) == 4 &&
+                        board.getNode(new Coordinate(midX, startNode.getYCoordinate())).getIsOccupied()) {
                     System.out.println("Valid horizontal hop");
-                    board.getPawn(move.getStart()).getOwner().stepLock();
+                    owner.setCurrentPawn(startPawn);
+                    owner.stepLock();
                     return true;
                 }
             }
+
             // A pawn can hop over a neighbouring pawn (diagonal hopping)
-            if (Math.abs(move.getStart().getYCoordinate() - move.getEnd().getYCoordinate()) == 2) {
-                int midX = (move.getStart().getXCoordinate() + move.getEnd().getXCoordinate()) / 2;
-                int midY = (move.getStart().getYCoordinate() + move.getEnd().getYCoordinate()) / 2;
+            if (Math.abs(startNode.getYCoordinate() - endNode.getYCoordinate()) == 2) {
+                int midX = (startNode.getXCoordinate() + endNode.getXCoordinate()) / 2;
+                int midY = (startNode.getYCoordinate() + endNode.getYCoordinate()) / 2;
                 if (board.getNode(new Coordinate(midX, midY)).getIsOccupied()) {
                     System.out.println("Valid diagonal hop");
-                    board.getPawn(move.getStart()).getOwner().stepLock();
+                    owner.setCurrentPawn(startPawn);
+                    owner.stepLock();
                     return true;
                 }
             }
         }
+
         // For everything else, discard as an invalid move
         System.out.println("Invalid move");
         return false;
     }
+
 
 
 }

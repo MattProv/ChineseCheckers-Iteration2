@@ -1,6 +1,7 @@
 package org.example.client.GUI;
 
 import javafx.application.Platform;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 import org.example.game_logic.Node;
@@ -13,7 +14,8 @@ public class NodeRepresentation extends Ellipse {
     boolean hovered = false;
     boolean occupied = false;
 
-    Paint baseColor;
+    Color baseColor;
+    Color occupantColor;
 
     public NodeRepresentation() {
         this.setRadiusX(5.0F);
@@ -33,8 +35,7 @@ public class NodeRepresentation extends Ellipse {
             if (!occupied) {
                 this.setFill(null);
             } else {
-                // TODO: set fill color when node is occupied
-                this.setFill(Paint.valueOf("black"));
+                setFill(occupantColor);
             }
         });
 
@@ -43,32 +44,37 @@ public class NodeRepresentation extends Ellipse {
     public void updateNode(Node node) {
         occupied = node.getIsOccupied();
 
-        baseColor = this.getBaseColor(node.getBaseId());
+        if(occupied) {
+            occupantColor = node.getOccupant().getOwner().getColor().getColor();
+        }
+
+        baseColor = getBaseColor(node.getBaseId());
+
         redrawNode();
     }
 
-    private Paint getBaseColor(int baseId) {
+    private Color getBaseColor(int baseId) {
         switch (baseId) {
             case 0 -> {
-                return Paint.valueOf("red");
+                return Color.valueOf("red");
             }
             case 1 -> {
-                return Paint.valueOf("blue");
+                return Color.valueOf("blue");
             }
             case 2 -> {
-                return Paint.valueOf("green");
+                return Color.valueOf("green");
             }
             case 3 -> {
-                return Paint.valueOf("yellow");
+                return Color.valueOf("yellow");
             }
             case 4 -> {
-                return Paint.valueOf("purple");
+                return Color.valueOf("purple");
             }
             case 5 -> {
-                return Paint.valueOf("orange");
+                return Color.valueOf("orange");
             }
             default -> {
-                return Paint.valueOf("white");
+                return Color.valueOf("white");
             }
         }
     }

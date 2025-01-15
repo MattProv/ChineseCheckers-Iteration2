@@ -38,7 +38,7 @@ public class Node implements Serializable {
 
     public void setOccupied(Pawn pawn) {
         this.isOccupied = true;
-        this.occupant = occupant;
+        this.occupant = pawn;
     }
 
     public void setUnoccupied(Pawn occupant) {
@@ -66,6 +66,10 @@ public class Node implements Serializable {
             }
         }
         return false;
+    }
+
+    public Pawn getOccupant() {
+        return occupant;
     }
 
     public int getBaseId() {

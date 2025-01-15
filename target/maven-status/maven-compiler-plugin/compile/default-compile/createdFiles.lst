@@ -50,6 +50,7 @@ org\example\client\GUI\LoginScreen$CallbacksHandler.class
 org\example\game_logic\Coordinate.class
 org\example\message\serverHandlers\MoveMessageHandler.class
 org\example\client\GUI\GameScreen$1.class
+org\example\SerializableColor.class
 org\example\server\GameManagerCallbackHandler.class
 org\example\client\Client.class
 org\example\client\GUI\BoardPane.class

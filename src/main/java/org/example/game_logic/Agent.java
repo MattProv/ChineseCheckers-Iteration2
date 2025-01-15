@@ -1,13 +1,14 @@
 package org.example.game_logic;
 
-import java.awt.*;
+import org.example.SerializableColor;
+
 import java.io.Serializable;
 import java.util.List;
 
 public class Agent implements Serializable{
     int id;
     private List<Pawn> pawns;
-    Color color;
+    SerializableColor color;
     private int startBaseIndex;
     private int finishBaseIndex;
     private boolean stepLocked = false;
@@ -18,6 +19,8 @@ public class Agent implements Serializable{
     public Agent(int id, boolean isPlayer) {
         this.id = id;
         this.isPlayer = isPlayer;
+
+        this.color = new SerializableColor((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256));
     }
 
     public Agent(int id, int startBaseIndex, int finishBaseIndex) {
@@ -74,5 +77,13 @@ public class Agent implements Serializable{
 
     public void promptMove(Board board) {
 
+    }
+
+    public void setColor(SerializableColor color) {
+        this.color = color;
+    }
+
+    public SerializableColor getColor() {
+        return color;
     }
 }

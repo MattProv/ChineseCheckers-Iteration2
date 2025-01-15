@@ -1,7 +1,6 @@
 package org.example.server;
 
 import org.example.GameState;
-import org.example.Player;
 import org.example.game_logic.*;
 import org.example.message.GameStateMessage;
 import org.example.message.UserlistMessage;

@@ -47,7 +47,8 @@ public class NodeRepresentation extends Ellipse {
         occupied = node.getIsOccupied();
 
         if(occupied) {
-            occupantColor = node.getOccupant().getOwner().getColor().getColor();
+            // occupantColor = node.getOccupant().getOwner().getColor().getColor();
+            occupantColor = getBaseColor(node.getOccupant().getOwner().getFinishBaseIndex());
         }
 
         baseColor = getBaseColor(node.getBaseId());

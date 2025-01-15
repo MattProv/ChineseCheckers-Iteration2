@@ -43,7 +43,7 @@ public class Agent implements Serializable{
         return this.startBaseIndex;
     }
 
-    int getFinishBaseIndex() {
+    public int getFinishBaseIndex() {
         return this.finishBaseIndex;
     }
 

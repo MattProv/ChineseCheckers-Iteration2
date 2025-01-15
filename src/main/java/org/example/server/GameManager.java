@@ -128,6 +128,7 @@ public final class GameManager {
 
         if (gameState.getBoard().getPawn(move.getStart()).getOwner() != agent) {
             gameManagerCallbackHandler.onInvalidMove(agent, move, "You can't move another player's pawns!");
+            return false;
         }
         if (ruleset.validateMove(gameState.getBoard(), move)) {
             gameState.getBoard().move(move);

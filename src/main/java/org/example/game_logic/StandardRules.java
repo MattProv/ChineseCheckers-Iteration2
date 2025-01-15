@@ -51,7 +51,6 @@ public class StandardRules implements Rules<StandardBoard> {
         }
         // If player commited a normal step already, he can't make another one
         if (board.getPawn(move.getStart()).getOwner().isStepLocked()) {
-            System.out.println("Can't make another step!");
         }
         // A pawn can step to an empty neighbouring node, it it isn't stepLocked
         else if (move.getStart().getNeighbours().contains(move.getEnd())) {

@@ -11,7 +11,7 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-public class StandardBoardTest {
+public class GeneralTest {
 
     private StandardBoard board;
     private StandardRules rules;

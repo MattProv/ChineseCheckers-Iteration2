@@ -37,6 +37,8 @@ public class NodeRepresentation extends Ellipse {
             } else {
                 setFill(occupantColor);
             }
+
+            toBack();
         });
 
     }

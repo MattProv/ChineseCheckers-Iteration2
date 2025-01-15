@@ -9,9 +9,9 @@ public class GameManagerCallbackHandler {
         System.out.println("Game started");
         Server.getServer().Broadcast(new StringMessage("Game started!"));
     }
-    public void onGameEnded() {
+    public void onGameEnded(Agent agent) {
         System.out.println("Game ended");
-        Server.getServer().Broadcast(new StringMessage("Game ended!"));
+        Server.getServer().Broadcast(new StringMessage("Game ended! " + agent + " won!"));
     }
 
     public void onGameNotStarted(String reason)

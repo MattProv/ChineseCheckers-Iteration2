@@ -8,28 +8,43 @@ import org.example.message.UserlistMessage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manages the game state, users, game flow, and synchronization in the game.
+ * This class follows the Singleton design pattern and ensures that only one instance
+ * of the game manager exists.
+ */
 public final class GameManager {
+
     private static GameManager instance = new GameManager();
-    //LOBBY
+
+    // Lobby to hold users waiting to play
     private final List<User> lobby = new ArrayList<>();
-    //SETTINGS
+
+    // Game settings
     private int playerCount = 2;
 
-    //RUNTIME
+    // Runtime game state and agents
     private final GameState gameState = new GameState();
     private List<Agent> agents = new ArrayList<>();
     private int currentTurn = 0;
 
+    // Ruleset for the game
     private Rules ruleset = new StandardRules();
     private final GameManagerCallbackHandler gameManagerCallbackHandler = new GameManagerCallbackHandler();
 
-    private GameManager()
-    {
-
+    /**
+     * Private constructor for Singleton design pattern.
+     */
+    private GameManager() {
     }
 
+    /**
+     * Sets the ruleset for the game. The rules cannot be changed if the game is already running.
+     *
+     * @param ruleset the ruleset to be used
+     */
     public void setRuleset(Rules ruleset) {
-        if(gameState.isRunning()) {
+        if (gameState.isRunning()) {
             gameManagerCallbackHandler.onRulesNotChanged("Game already running!");
             return;
         }
@@ -37,16 +52,31 @@ public final class GameManager {
         gameManagerCallbackHandler.onRulesChanged("Rules changed!");
     }
 
-    public static GameManager create()
-    {
+    /**
+     * Creates and returns the singleton instance of GameManager.
+     *
+     * @return the singleton instance of GameManager
+     */
+    public static GameManager create() {
         return instance = new GameManager();
     }
 
-    public static GameManager getInstance()
-    {
+    /**
+     * Returns the singleton instance of GameManager.
+     *
+     * @return the singleton instance of GameManager
+     */
+    public static GameManager getInstance() {
         return instance;
     }
 
+    /**
+     * Starts the game if conditions are met (valid number of users, game board, and ruleset).
+     * Initializes the agents and sets up the board, then starts the game.
+     *
+     * @param users list of users who are playing the game
+     * @return true if the game started successfully, false otherwise
+     */
     public boolean startGame(final List<ServerConnection> users) {
         if (gameState.isRunning()) {
             gameManagerCallbackHandler.onGameNotStarted("Game already running!");
@@ -64,7 +94,7 @@ public final class GameManager {
             return false;
         }
 
-        if(ruleset == null) {
+        if (ruleset == null) {
             gameManagerCallbackHandler.onGameNotStarted("No ruleset set!");
             return false;
         }
@@ -81,7 +111,7 @@ public final class GameManager {
         ruleset.setupBoard(gameState.getBoard(), agents);
         gameState.setRunning(true);
 
-        agents.getFirst().promptMove(gameState.getBoard());
+        agents.get(0).promptMove(gameState.getBoard());
 
         synchronizeGameState();
 
@@ -89,8 +119,14 @@ public final class GameManager {
         return true;
     }
 
+    /**
+     * Sets the board for the game. Cannot change if the game is already running.
+     *
+     * @param board the board to set
+     * @return true if the board was successfully set, false otherwise
+     */
     public boolean setBoard(final Board board) {
-        if(gameState.isRunning()) {
+        if (gameState.isRunning()) {
             gameManagerCallbackHandler.onBoardNotChanged("Game already running!");
             return false;
         }
@@ -100,12 +136,18 @@ public final class GameManager {
         return true;
     }
 
+    /**
+     * Sets the number of players required for the game. Validates player count before setting.
+     *
+     * @param playerCount the desired number of players
+     * @return true if the player count was successfully set, false otherwise
+     */
     public boolean setPlayerCount(final int playerCount) {
-        if(gameState.isRunning()) {
+        if (gameState.isRunning()) {
             gameManagerCallbackHandler.onPlayerCountNotChanged(playerCount, "Game already running!");
             return false;
         }
-        if(playerCount == 5 || playerCount > 6 || playerCount < 2) {
+        if (playerCount == 5 || playerCount > 6 || playerCount < 2) {
             gameManagerCallbackHandler.onPlayerCountNotChanged(playerCount, "Invalid player count!");
             return false;
         }
@@ -114,14 +156,20 @@ public final class GameManager {
         return true;
     }
 
+    /**
+     * Processes a move made by an agent. Validates and applies the move if possible.
+     *
+     * @param agent the agent making the move
+     * @param move the move being made
+     * @return true if the move was valid and applied, false otherwise
+     */
     public boolean makeMove(final Agent agent, final Move move) {
         if (!gameState.isRunning()) {
             gameManagerCallbackHandler.onInvalidMove(agent, move, "Game not running!");
             return false;
         }
 
-        if(agent != agents.get(currentTurn))
-        {
+        if (agent != agents.get(currentTurn)) {
             gameManagerCallbackHandler.onInvalidMove(agent, move, "Not your turn!");
             return false;
         }
@@ -140,43 +188,53 @@ public final class GameManager {
             synchronizeGameState();
             gameManagerCallbackHandler.onValidMove(agent, move, "Valid move!");
             return true;
-        }
-        else
+        } else {
             System.out.println("Validation failed!");
+        }
         gameManagerCallbackHandler.onInvalidMove(agent, move, "Invalid move!");
         return false;
     }
 
-    public Player getPlayerByConnection(ServerConnection sc)
-    {
-        for(Agent agent : agents)
-        {
-           if(agent.isPlayer())
-           {
-                Player player = (Player)agent;
-                if(player.getOwner().getConnection() == sc)
-                     return player;
-           }
+    /**
+     * Retrieves the player associated with a given connection.
+     *
+     * @param sc the server connection to look up
+     * @return the player associated with the connection, or null if not found
+     */
+    public Player getPlayerByConnection(ServerConnection sc) {
+        for (Agent agent : agents) {
+            if (agent.isPlayer()) {
+                Player player = (Player) agent;
+                if (player.getOwner().getConnection() == sc)
+                    return player;
+            }
         }
         return null;
     }
-    public User getUserByConnection(ServerConnection sc)
-    {
-        for(User user : lobby)
-        {
-            if(user.getConnection() == sc)
+
+    /**
+     * Retrieves the user associated with a given connection.
+     *
+     * @param sc the server connection to look up
+     * @return the user associated with the connection, or null if not found
+     */
+    public User getUserByConnection(ServerConnection sc) {
+        for (User user : lobby) {
+            if (user.getConnection() == sc)
                 return user;
         }
         return null;
     }
 
-    public void synchronizeGameState()
-    {
+    /**
+     * Synchronizes the game state across all players.
+     * This method sends a game state update to all connected players.
+     */
+    public void synchronizeGameState() {
         System.out.println("Synchronizing game state.");
-        List<String> playerNames = new ArrayList<String>();
-        for(Agent agent : agents)
-        {
-            playerNames.add(agent.isPlayer()?((Player)agent).getOwner().getUsername():"AI");
+        List<String> playerNames = new ArrayList<>();
+        for (Agent agent : agents) {
+            playerNames.add(agent.isPlayer() ? ((Player) agent).getOwner().getUsername() : "AI");
         }
         String[] playerNamesArray = new String[playerNames.size()];
         playerNamesArray = playerNames.toArray(playerNamesArray);
@@ -186,12 +244,14 @@ public final class GameManager {
         Server.getServer().Broadcast(gsm);
     }
 
-    public void synchronizeUsers()
-    {
+    /**
+     * Synchronizes the user list across all players.
+     * This method sends the user list to all connected players.
+     */
+    public void synchronizeUsers() {
         System.out.println("Synchronizing users.");
-        List<String> usernames = new ArrayList<String>();
-        for(User user : lobby)
-        {
+        List<String> usernames = new ArrayList<>();
+        for (User user : lobby) {
             usernames.add(user.getUsername());
         }
         String[] usernamesArray = new String[usernames.size()];
@@ -199,31 +259,50 @@ public final class GameManager {
         Server.getServer().Broadcast(new UserlistMessage(usernamesArray));
     }
 
-    public void addUser(final User user)
-    {
+    /**
+     * Adds a user to the lobby.
+     *
+     * @param user the user to add to the lobby
+     */
+    public void addUser(final User user) {
         lobby.add(user);
     }
 
-    public void removeUser(ServerConnection sc)
-    {
+    /**
+     * Removes a user from the lobby by their connection.
+     *
+     * @param sc the server connection of the user to remove
+     */
+    public void removeUser(ServerConnection sc) {
         User user = getUserByConnection(sc);
-        if(user != null)
+        if (user != null)
             lobby.remove(user);
     }
 
+    /**
+     * Makes a move from coordinates (start to end) for an agent.
+     *
+     * @param agent the agent making the move
+     * @param start the starting coordinate
+     * @param end the ending coordinate
+     * @return true if the move was successfully made, false otherwise
+     */
     public boolean makeMoveFromCoordinates(final Agent agent, Coordinate start, Coordinate end) {
-        Move move = new Move (gameState.getBoard().getNode(start), gameState.getBoard().getNode(end) );
+        Move move = new Move(gameState.getBoard().getNode(start), gameState.getBoard().getNode(end));
         return makeMove(agent, move);
     }
 
-
+    /**
+     * Ends the current turn for an agent, checks win conditions, and moves to the next turn if necessary.
+     *
+     * @param agent the agent whose turn is being ended
+     */
     public void endTurn(Agent agent) {
-        if(agent != agents.get(currentTurn))
+        if (agent != agents.get(currentTurn))
             return;
         agent.liftLocks();
 
-        if(ruleset.checkWinCondition(agents.get(currentTurn)))
-        {
+        if (ruleset.checkWinCondition(agents.get(currentTurn))) {
             gameManagerCallbackHandler.onGameEnded(agents.get(currentTurn));
             return;
         }

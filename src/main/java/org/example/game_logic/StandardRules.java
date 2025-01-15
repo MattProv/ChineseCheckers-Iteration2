@@ -22,7 +22,7 @@ public class StandardRules implements Rules<StandardBoard> {
         else {
             int d = 6/agents.size();
             for (int i = 0; i < agents.size(); i++) {
-                agents.get(i).assignBases(i*d, (i + 3) % 6);
+                agents.get(i).assignBases(i*d, (i*d + 3) % 6);
             }
         }
     }
@@ -39,12 +39,12 @@ public class StandardRules implements Rules<StandardBoard> {
 
     @Override
     public boolean validateMove(StandardBoard board, Move move) {
+        System.out.println("Checking move...");
         Pawn startPawn = board.getPawn(move.getStart());
         Node startNode = move.getStart();
         Node endNode = move.getEnd();
         Agent owner = startPawn.getOwner();
 
-        // Check if the owner already has a current pawn
         if (owner.getCurrentPawn() != null) {
             if (owner.getCurrentPawn() != startPawn) {
                 System.out.println("Can't move multiple pawns in one move!");
@@ -52,32 +52,34 @@ public class StandardRules implements Rules<StandardBoard> {
             }
         }
 
-        // A pawn can't leave its base after it enters it
-        if (startPawn.isBaseLocked()) {
-            if (endNode.getBaseId() != owner.getFinishBaseIndex()) {
-                return false;
-            }
-        }
-
-        // If the player committed a normal step already, they can't make another one
-        if (owner.isStepLocked()) {
+        if (startPawn.isBaseLocked() && endNode.getBaseId() != owner.getFinishBaseIndex()) {
+            System.out.println("Can't leave the end base after entering it!");
             return false;
-        } else if (startNode.getNeighbours().contains(endNode)) {
-            if (endNode.getIsOccupied()) {
-                System.out.println("Can't move to an occupied node");
+        }
+        // Step moves
+        if (startNode.getNeighbours().contains(endNode)) {
+            if (owner.isStepLocked()) {
+                System.out.println("Step locked: move invalid");
                 return false;
             }
-            System.out.println("Valid move to an empty neighbour");
-            owner.hopLock();
-            owner.stepLock();
-            return true;
+            else {
+                if (endNode.getIsOccupied()) {
+                    System.out.println("Can't move to an occupied node");
+                    return false;
+                }
+                System.out.println("Valid move to an empty neighbour");
+                owner.hopLock();
+                owner.stepLock();
+                return true;
+            }
         }
 
+        // Hop moves
         if (owner.isHopLocked()) {
             System.out.println("Player can't make a hop after taking a step!");
             return false;
-        } else {
-            // A pawn can hop over a neighbouring pawn (horizontal hopping)
+        }
+        else {
             if (startNode.getYCoordinate() == endNode.getYCoordinate()) {
                 int midX = (startNode.getXCoordinate() + endNode.getXCoordinate()) / 2;
                 if (Math.abs(startNode.getXCoordinate() - endNode.getXCoordinate()) == 4 &&
@@ -87,15 +89,18 @@ public class StandardRules implements Rules<StandardBoard> {
                     owner.stepLock();
                     return true;
                 }
+                System.out.println("Invalid horizontal hop");
+                return false;
             }
 
-            // A pawn can hop over a neighbouring pawn (diagonal hopping)
             if (Math.abs(startNode.getYCoordinate() - endNode.getYCoordinate()) == 2) {
                 int midX = (startNode.getXCoordinate() + endNode.getXCoordinate()) / 2;
                 int midY = (startNode.getYCoordinate() + endNode.getYCoordinate()) / 2;
                 Node midNode = board.getNode(new Coordinate(midX, midY));
-                if(midNode == null)
+                if (midNode == null) {
+                    System.out.println("Invalid diagonal hop, no pawn in-between");
                     return false;
+                }
                 if (midNode.getIsOccupied()) {
                     System.out.println("Valid diagonal hop");
                     owner.setCurrentPawn(startPawn);
@@ -105,10 +110,10 @@ public class StandardRules implements Rules<StandardBoard> {
             }
         }
 
-        // For everything else, discard as an invalid move
-        System.out.println("Invalid move");
+        System.out.println("Move validation failed: No valid condition matched");
         return false;
     }
+
 
 
 

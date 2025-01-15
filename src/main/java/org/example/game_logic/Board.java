@@ -37,10 +37,10 @@ public abstract class Board implements Serializable, Cloneable {
     }
 
     public void addPawn(Coordinate coordinate, Agent owner) {
-        Node node = getNode(coordinate); // Ensure this retrieves the correct node
+        Node node = getNode(coordinate);
         Pawn pawn = new Pawn(Pawns.size() + 1, owner, node);
-        Pawns.put(node, pawn);           // Add pawn to the map
-        node.setOccupied(pawn);              // Mark the node as occupied
+        Pawns.put(node, pawn);
+        node.setOccupied(pawn);
     }
 
     public void addPawn(Node node, Agent owner) {
@@ -56,6 +56,9 @@ public abstract class Board implements Serializable, Cloneable {
         Pawn pawn = Pawns.get(start);
         start.setUnoccupied(pawn);
         Pawns.remove(start);
+        if (end.getBaseId() == pawn.getOwner().getFinishBaseIndex()) {
+            pawn.makeBaseLocked();
+        }
         Pawns.put(end, pawn);
         end.setOccupied(pawn);
     }

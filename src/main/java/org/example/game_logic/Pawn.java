@@ -11,6 +11,7 @@ public class Pawn implements Serializable, Cloneable {
     public Pawn(int id, Agent owner, Node location) {
         this.id = id;
         this.owner = owner;
+        this.owner.addPawn(this);
         this.location = location;
     }
 

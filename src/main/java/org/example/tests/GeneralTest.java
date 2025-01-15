@@ -129,4 +129,34 @@ public class GeneralTest {
         assertEquals(board.getNodes().size(), clonedBoard.getNodes().size());
         assertEquals(board.getBases().size(), clonedBoard.getBases().size());
     }
+
+    @Test
+    public void testCheckWinCondition() {
+        // Create the agent
+        Agent agent = new Agent(1, true);
+
+        // Create the board and base nodes
+        StandardBoard board = new StandardBoard();
+        int baseId = 0; // Assuming base ID 0 is the winning base
+        int numPawns = 5; // Number of pawns for the agent
+        Node helpNode = new Node(0, 12);
+        Pawn helpPawn = new Pawn(0, agent, helpNode);
+        helpNode.setOccupied(helpPawn);
+        // Assert that win condition is now false
+        assertFalse(rules.checkWinCondition(agent));
+        helpPawn.makeBaseLocked();
+        // Create pawns and place them in the base
+        for (int i = 1; i < numPawns; i++) {
+            Node baseNode = new Node(i, 0, baseId); // Example coordinates
+            Pawn pawn = new Pawn(i + 1, agent, baseNode);
+            baseNode.setOccupied(pawn);
+            pawn.makeBaseLocked(); // Simulate pawn being locked in base
+        }
+
+        // Assert that all pawns are in the base and win condition is true
+        assertTrue(rules.checkWinCondition(agent));
+
+
+    }
 }
+

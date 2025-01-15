@@ -3,11 +3,12 @@ package org.example.game_logic;
 import org.example.SerializableColor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Agent implements Serializable{
     int id;
-    private List<Pawn> pawns;
+    private List<Pawn> pawns = new ArrayList<>();
     SerializableColor color;
     private int startBaseIndex;
     private int finishBaseIndex;
@@ -30,8 +31,12 @@ public class Agent implements Serializable{
         this.finishBaseIndex = finishBaseIndex;
     }
 
-    List<Pawn> getPawns() {
+    public List<Pawn> getPawns() {
         return pawns;
+    }
+
+    public void addPawn(Pawn pawn) {
+        pawns.add(pawn);
     }
 
     void assignBases(int startBaseIndex, int finishBaseIndex) {

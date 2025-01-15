@@ -34,6 +34,7 @@ public class ClientMainGUI extends Application {
     private Scene lobbyScene;
     private Scene gameScene;
 
+    GameScreen gameScreen;
 
     @Override
     public void start(Stage primaryStage) {
@@ -50,7 +51,7 @@ public class ClientMainGUI extends Application {
         LobbyScreen lobbyScreen = new LobbyScreen();
         lobbyScene = new Scene(lobbyScreen, 500, 400);
 
-        GameScreen gameScreen = new GameScreen(gameState);
+        gameScreen = new GameScreen(gameState);
         gameScene = new Scene(gameScreen, 500, 400);
 
         loginScreen.setCallbacksHandler(new LoginScreen.CallbacksHandler() {
@@ -118,11 +119,6 @@ public class ClientMainGUI extends Application {
             @Override
             public void onQuit() {
                 client.send(new DisconnectMessage());
-            }
-
-            @Override
-            public void onError(String message) {
-                showError(message);
             }
         });
 
@@ -192,7 +188,10 @@ public class ClientMainGUI extends Application {
                 Platform.runLater(() -> primaryStage.setScene(lobbyScene));
                 break;
             case GAME:
-                Platform.runLater(() -> primaryStage.setScene(gameScene));
+                Platform.runLater(() -> {
+                    primaryStage.setScene(gameScene);
+                    gameScreen.updateBoard();
+                });
                 break;
         }
         screenLoaded = screenType;

@@ -16,16 +16,13 @@ import java.util.Objects;
 public class GameScreen extends BorderPane {
 
     public void promptMove() {
-        Platform.runLater(() -> {
-            enableEndTurnButton(true);
-        });
+        Platform.runLater(() -> enableEndTurnButton(true));
     }
 
     public static abstract class CallbacksHandler {
         public abstract void onQuit();
         public abstract void onEndTurn();
         public abstract void onMove(Coordinate start, Coordinate end);
-        public abstract void onError(String message);
     }
 
     private CallbacksHandler callbacksHandler;
@@ -93,7 +90,6 @@ public class GameScreen extends BorderPane {
         //server message
         serverMessage = new Label();
         serverMessage.setPadding(new Insets(5, 5, 5, 5));
-        setBottom(serverMessage);
 
         GridPane buttons = getButtons();
 
@@ -119,14 +115,10 @@ public class GameScreen extends BorderPane {
 
         endTurnButton = new Button("End turn");
         endTurnButton.setDisable(true);
-        endTurnButton.setOnAction(ActionEvent -> {
-            callbacksHandler.onEndTurn();
-        });
+        endTurnButton.setOnAction(ActionEvent -> callbacksHandler.onEndTurn());
 
         Button quitButton = new Button("Quit");
-        quitButton.setOnAction(ActionEvent -> {
-            callbacksHandler.onQuit();
-        });
+        quitButton.setOnAction(ActionEvent -> callbacksHandler.onQuit());
 
         GridPane buttons = new GridPane();
         buttons.add(redrawButton, 0, 0);
@@ -150,7 +142,7 @@ public class GameScreen extends BorderPane {
     }
 
     public void showServerMessage(String message) {
-        Platform.runLater(() ->serverMessage.setText(message));
+        Platform.runLater(() -> serverMessage.setText(message));
     }
 
     public void updateBoard() {

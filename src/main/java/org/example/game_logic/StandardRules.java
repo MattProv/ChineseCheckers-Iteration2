@@ -22,7 +22,7 @@ public class StandardRules implements Rules<StandardBoard> {
         else {
             int d = 6/agents.size();
             for (int i = 0; i < agents.size(); i++) {
-                agents.get(i).assignBases(i*d, (i + 3) % 6);
+                agents.get(i).assignBases(i*d, (i*d + 3) % 6);
             }
         }
     }

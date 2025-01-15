@@ -2,8 +2,11 @@ package org.example.message;
 
 import org.example.game_logic.BoardType;
 
+/**
+ * Message class used to send the board type between the server and the client
+ */
 public class BoardTypeMessage extends Message {
-    private BoardType boardType;
+    private final BoardType boardType;
 
     public BoardTypeMessage(BoardType boardType) {
         super(MessageType.BOARD_TYPE);
@@ -12,10 +15,6 @@ public class BoardTypeMessage extends Message {
 
     public BoardType getBoardType() {
         return boardType;
-    }
-
-    public void setBoardType(BoardType boardType) {
-        this.boardType = boardType;
     }
 
     @Override

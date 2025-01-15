@@ -8,6 +8,9 @@ import org.example.message.MessageHandler;
 import org.example.message.MessageSenderPair;
 import org.example.message.MessageType;
 
+/**
+ * Message handler used to display the game state on the GUI
+ */
 public class GameStateMessageGUIHandler extends MessageHandler {
 
     private final GameState gameState;

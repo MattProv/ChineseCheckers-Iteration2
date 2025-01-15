@@ -5,6 +5,9 @@ import org.example.message.MessageSenderPair;
 import org.example.message.MessageType;
 import org.example.message.StringMessage;
 
+/**
+ * Message handler for echoing any string message to the console.
+ */
 public final class EchoMessageHandler extends MessageHandler {
     public EchoMessageHandler() {
         super(MessageType.STRING);

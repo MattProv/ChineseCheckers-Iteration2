@@ -21,14 +21,23 @@ import org.example.message.clientHandlers.PromptMoveMessageHandler;
 import org.example.message.clientHandlers.StringMessageGUIHandler;
 import org.example.message.clientHandlers.UserlistMessageHandler;
 
+/**
+ * Entry point for the client application.
+ */
 public class ClientMainGUI extends Application {
 
+    /**
+     * Enum representing the current screen loaded in the application.
+     */
     private enum ScreenType{
         LOGIN,
         LOBBY,
         GAME
     }
 
+    /**
+     * The current screen loaded in the application and screen available to be loaded.
+     */
     private ScreenType screenLoaded = ScreenType.LOGIN;
     private Scene loginScene;
     private Scene lobbyScene;
@@ -38,13 +47,14 @@ public class ClientMainGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
+        // Create the client and game state
         Client client = Client.create();
         GameState gameState = new GameState();
 
         primaryStage.setMinHeight(400);
         primaryStage.setMinWidth(500);
 
+        // Create the login, lobby, and game screens
         LoginScreen loginScreen = new LoginScreen();
         loginScene = new Scene(loginScreen, 500, 400);
 
@@ -54,6 +64,7 @@ public class ClientMainGUI extends Application {
         gameScreen = new GameScreen(gameState);
         gameScene = new Scene(gameScreen, 500, 400);
 
+        // Set the callbacks for the login, lobby, and game screens
         loginScreen.setCallbacksHandler(new LoginScreen.CallbacksHandler() {
             @Override
             public void onConnect(String username, String host, int port) {
@@ -122,6 +133,7 @@ public class ClientMainGUI extends Application {
             }
         });
 
+        // Set the client callbacks
         client.clientCallbacksHandler = new ClientCallbacksHandler() {
             @Override
             public void onDisconnect() {
@@ -150,6 +162,7 @@ public class ClientMainGUI extends Application {
             }
         });
 
+        // Set the close request handler, important for disconnecting the client
         primaryStage.setOnCloseRequest(WindowEvent -> {
             client.Disconnect();
 
@@ -166,6 +179,10 @@ public class ClientMainGUI extends Application {
         launch(args);
     }
 
+    /**
+     * Show an error dialog with the given message.
+     * @param message
+     */
     void showError(String message) {
         Platform.runLater(() -> {
             Dialog<String> alertDialog = new Dialog<>();
@@ -179,6 +196,11 @@ public class ClientMainGUI extends Application {
         });
     }
 
+    /**
+     * Set the scene to the given screen type.
+     * @param screenType
+     * @param primaryStage
+     */
     void setScene(ScreenType screenType, Stage primaryStage) {
         switch (screenType) {
             case LOGIN:

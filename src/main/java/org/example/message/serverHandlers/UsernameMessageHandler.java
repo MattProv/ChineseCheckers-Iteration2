@@ -8,6 +8,9 @@ import org.example.server.GameManager;
 import org.example.server.ServerConnection;
 import org.example.server.User;
 
+/**
+ * Message handler that handles the username message initializing the user on the server
+ */
 public class UsernameMessageHandler extends MessageHandler {
     private final GameManager gameManager;
 

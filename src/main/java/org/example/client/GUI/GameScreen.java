@@ -13,27 +13,42 @@ import org.example.game_logic.Coordinate;
 
 import java.util.Objects;
 
+/**
+ * The main game screen
+ */
 public class GameScreen extends BorderPane {
 
+    /**
+     * Prompt the user to make a move
+     */
     public void promptMove() {
         Platform.runLater(() -> enableEndTurnButton(true));
     }
 
+    /**
+     * Callbacks handler for the game screen
+     */
     public static abstract class CallbacksHandler {
         public abstract void onQuit();
         public abstract void onEndTurn();
         public abstract void onMove(Coordinate start, Coordinate end);
     }
 
+    // CALLBACKS HANDLER
     private CallbacksHandler callbacksHandler;
 
+    // GAME STATE
     private final GameState gameState;
 
+    // GUI TO CHANGE
+    // VBOXES (USERS LIST, PLAYERS LIST)
     private final VBox usersList;
     private final VBox playersList;
 
+    // LABELS
     private final Label serverMessage;
 
+    // BOARD PANE
     private final BoardPane boardPane;
 
     //BUTTONS
@@ -44,6 +59,10 @@ public class GameScreen extends BorderPane {
     private Coordinate start;
     private Coordinate end;
 
+    /**
+     * Generate the game screen
+     * @param gameState the game state
+     */
     public GameScreen(GameState gameState) {
         super();
         this.gameState = gameState;
@@ -102,6 +121,10 @@ public class GameScreen extends BorderPane {
         getStylesheets().add(Objects.requireNonNull(getClass().getResource("/gamestyles.css")).toExternalForm());
     }
 
+    /**
+     * Generate the buttons
+     * @return the buttons
+     */
     private GridPane getButtons() {
         Button redrawButton = new Button("Redraw");
         redrawButton.setOnAction(ActionEvent -> updateBoard());
@@ -133,18 +156,33 @@ public class GameScreen extends BorderPane {
         return buttons;
     }
 
+    /**
+     * Enable the move button
+     * @param enable if the button should be enabled
+     */
     public void enableMoveButton(boolean enable) {
         moveButton.setDisable(!enable);
     }
 
+    /**
+     * Enable the end turn button
+     * @param enable if the button should be enabled
+     */
     public void enableEndTurnButton(boolean enable) {
         endTurnButton.setDisable(!enable);
     }
 
+    /**
+     * Show a message from the server
+     * @param message the message
+     */
     public void showServerMessage(String message) {
         Platform.runLater(() -> serverMessage.setText(message));
     }
 
+    /**
+     * Redraw the board
+     */
     public void updateBoard() {
         if(gameState.getBoard() == null) {
             return;
@@ -152,6 +190,11 @@ public class GameScreen extends BorderPane {
         boardPane.updateBoard(gameState.getBoard());
     }
 
+    /**
+     * Update the player list
+     * @param players the players
+     * @param turn the turn, to bold the current player
+     */
     public void updatePlayerList(String[] players, int turn) {
         Platform.runLater(() -> {
             playersList.getChildren().clear();
@@ -165,6 +208,10 @@ public class GameScreen extends BorderPane {
         });
     }
 
+    /**
+     * Update the user list
+     * @param allUsers the users
+     */
     public void updateAllUsers(String[] allUsers) {
         Platform.runLater(() -> {
             usersList.getChildren().clear();
@@ -174,6 +221,10 @@ public class GameScreen extends BorderPane {
         });
     }
 
+    /**
+     * Set the callbacks handler
+     * @param callbacksHandler the callbacks handler
+     */
     public void setCallbacksHandler(CallbacksHandler callbacksHandler) {
         this.callbacksHandler = callbacksHandler;
     }

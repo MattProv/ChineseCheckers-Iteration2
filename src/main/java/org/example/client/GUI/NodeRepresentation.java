@@ -6,14 +6,20 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 import org.example.game_logic.Node;
 
+/**
+ * Class used to represent a node on the GUI
+ * @see BoardPane
+ */
 public class NodeRepresentation extends Ellipse {
-
+    // position of the node
     private double x = 0;
     private double y = 0;
 
+    // whether the node is hovered and occupied
     boolean hovered = false;
     boolean occupied = false;
 
+    // colors of the node
     Color baseColor;
     Color occupantColor;
 
@@ -24,6 +30,9 @@ public class NodeRepresentation extends Ellipse {
         this.setStroke(Paint.valueOf("white"));
     }
 
+    /**
+     * Redraws the node
+     */
     private void redrawNode() {
         Platform.runLater(() -> {
             if (this.hovered) {
@@ -43,6 +52,11 @@ public class NodeRepresentation extends Ellipse {
 
     }
 
+    /**
+     * Updates the node with the given Node
+     * @param node the node to update the node with
+     * @see Node
+     */
     public void updateNode(Node node) {
         occupied = node.getIsOccupied();
 
@@ -56,6 +70,11 @@ public class NodeRepresentation extends Ellipse {
         redrawNode();
     }
 
+    /**
+     * Returns the color of the base with the given id
+     * @param baseId the id of the base
+     * @return the color of the base
+     */
     private Color getBaseColor(int baseId) {
         switch (baseId) {
             case 0 -> {
@@ -82,6 +101,11 @@ public class NodeRepresentation extends Ellipse {
         }
     }
 
+    /**
+     * Sets the position of the node
+     * @param x the x coordinate
+     * @param y the y coordinate
+     */
     public void setPos(double x, double y) {
         this.setCenterX(x);
         this.setCenterY(y);
@@ -98,6 +122,10 @@ public class NodeRepresentation extends Ellipse {
         return y;
     }
 
+    /**
+     * Sets the radius of the node
+     * @param r the radius
+     */
     public void setRadius(double r) {
         double strokeWidth = r / (double)5.0F;
         this.setRadiusX(r - strokeWidth);
@@ -105,10 +133,20 @@ public class NodeRepresentation extends Ellipse {
         this.setStrokeWidth(strokeWidth);
     }
 
+    /**
+     * Returns whether the node is hit by the given coordinates
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return whether the node is hit
+     */
     public boolean isHit(double x, double y) {
         return this.getBoundsInParent().contains(x, y);
     }
 
+    /**
+     * Sets whether the node is hovered
+     * @param hovered whether the node is hovered
+     */
     public void setHovered(boolean hovered) {
         this.hovered = hovered;
         redrawNode();

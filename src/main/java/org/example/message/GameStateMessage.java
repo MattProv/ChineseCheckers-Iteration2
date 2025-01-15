@@ -2,6 +2,9 @@ package org.example.message;
 
 import org.example.GameState;
 
+/**
+ * Message class used to send the game state between the server and the client
+ */
 public final class GameStateMessage extends Message {
 
     private final GameState gameState;

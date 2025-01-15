@@ -6,6 +6,9 @@ import org.example.message.MessageHandler;
 import org.example.message.MessageSenderPair;
 import org.example.message.MessageType;
 
+/**
+ * Class used to display a server-message on the GUI
+ */
 public class StringMessageGUIHandler extends MessageHandler {
 
     private final LobbyScreen lobbyScreen;

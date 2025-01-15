@@ -6,6 +6,9 @@ import org.example.message.MessageSenderPair;
 import org.example.message.MessageType;
 import org.example.server.GameManager;
 
+/**
+ * Message handler that sets the board type in the game manager
+ */
 public class BoardTypeMessageHandler extends MessageHandler {
     final GameManager gameManager;
     public BoardTypeMessageHandler(GameManager gameManager) {

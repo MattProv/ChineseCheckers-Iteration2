@@ -1,5 +1,8 @@
 package org.example.message;
 
+/**
+ * Message class used to verify the username of the client with the server
+ */
 public class UsernameMessage extends Message {
     private final String username;
 

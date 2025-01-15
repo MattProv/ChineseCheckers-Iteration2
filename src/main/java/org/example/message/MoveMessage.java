@@ -2,7 +2,11 @@ package org.example.message;
 
 import org.example.game_logic.Coordinate;
 
+/**
+ * Message class used to send move messages between the server and the client
+ */
 public class MoveMessage extends Message {
+    // the start and end coordinates of the move
     private final Coordinate start;
     private final Coordinate end;
 

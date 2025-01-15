@@ -6,6 +6,9 @@ import org.example.message.MessageType;
 import org.example.message.RulesTypeMessage;
 import org.example.server.GameManager;
 
+/**
+ * Message handler used to change the ruleset of the game
+ */
 public class RuleTypeMessageHandler extends MessageHandler {
     final GameManager gameManager;
     public RuleTypeMessageHandler(final GameManager gm){

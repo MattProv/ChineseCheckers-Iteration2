@@ -8,6 +8,9 @@ import org.example.server.GameManager;
 import org.example.server.Server;
 import org.example.server.ServerConnection;
 
+/**
+ * Message handler for handling command messages such as setting the player count and starting the game
+ */
 public final class CommandMessageHandler extends MessageHandler {
     private final GameManager gameManager;
 

@@ -12,22 +12,33 @@ import org.example.game_logic.Coordinate;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Pane that displays the board and handles user input
+ */
 public class BoardPane extends Pane {
+    /**
+     * Callbacks handler for the board pane
+     */
     public static abstract class CallbacksHandler {
         public void onMoveSelected(Coordinate start, Coordinate end) {}
         public void onMoveCancelled() {}
     }
 
+    // Callbacks handler for the board pane
     private CallbacksHandler callbacksHandler;
 
+    // Map of nodes on the board
     private final Map<Coordinate, NodeRepresentation> nodes = new HashMap<>();
+    // Board drawing tool
     private final BoardDrawingTool boardDrawingTool = new BoardDrawingTool();
 
+    // Move indicators
     Label moveIndicator1 = new Label("1");
     Coordinate moveIndicator1Coordinate;
     Label moveIndicator2 = new Label("2");
     Coordinate moveIndicator2Coordinate;
 
+    // Mouse event handler for the board pane
     final BoardPaneMouseEventHandler mouseHandler;
 
     public BoardPane() {
@@ -38,6 +49,10 @@ public class BoardPane extends Pane {
         setOnMouseMoved(mouseHandler);
     }
 
+    /**
+     * Updates the board on the pane
+     * @param board the board to update
+     */
     public void updateBoard(Board board) {
         this.boardDrawingTool.drawBoard(board, this);
         updateIndicators();
@@ -51,14 +66,25 @@ public class BoardPane extends Pane {
         return callbacksHandler;
     }
 
+    /**
+     * Sets the callbacks handler for the board pane
+     * @param callbacksHandler the callbacks handler to set
+     */
     public void setCallbacksHandler(CallbacksHandler callbacksHandler) {
         this.callbacksHandler = callbacksHandler;
     }
 
+    /**
+     * Cancels the current move
+     */
     public void cancelMove() {
         mouseHandler.cancelMove();
     }
 
+    /**
+     * Updates the move indicators
+     * Use it when board is updated or redrawn / resized
+     */
     public void updateIndicators()
     {
         if(moveIndicator1Coordinate != null)
@@ -71,11 +97,22 @@ public class BoardPane extends Pane {
         }
     }
 
+    /**
+     * Sets the move indicator for a coordinate
+     * Can be run from any thread
+     * @param moveIndicator
+     * @param coordinate
+     */
     public void setMoveIndicatorThreadSafe(Label moveIndicator, Coordinate coordinate)
     {
         Platform.runLater(() -> setMoveIndicator(moveIndicator, coordinate));
     }
 
+    /**
+     * Sets the move indicator for a coordinate
+     * @param moveIndicator
+     * @param coordinate
+     */
     private void setMoveIndicator(Label moveIndicator, Coordinate coordinate)
     {
         if(moveIndicator == moveIndicator1)
@@ -99,6 +136,9 @@ public class BoardPane extends Pane {
         moveIndicator.setLayoutY(y);
     }
 
+    /**
+     * Clears the move indicators
+     */
     public void clearMoveIndicators() {
         moveIndicator1Coordinate = null;
         moveIndicator2Coordinate = null;
@@ -108,9 +148,13 @@ public class BoardPane extends Pane {
         });
     }
 
+    /**
+     * Mouse event handler for the board pane
+     */
     static class BoardPaneMouseEventHandler implements EventHandler<MouseEvent> {
         BoardPane pane;
 
+        // Start and end coordinates of the move
         Coordinate start;
         Coordinate end;
 
@@ -120,11 +164,19 @@ public class BoardPane extends Pane {
             this.pane = pane;
         }
 
+        /**
+         * Sets the start coordinate of the move
+         * @param start the start coordinate
+         */
         private void setStart(Coordinate start) {
             this.start = start;
             pane.setMoveIndicatorThreadSafe(pane.moveIndicator1, start);
         }
 
+        /**
+         * Sets the end coordinate of the move
+         * @param end the end coordinate
+         */
         private void setEnd(Coordinate end) {
             this.end = end;
             pane.setMoveIndicatorThreadSafe(pane.moveIndicator2, end);
@@ -182,11 +234,17 @@ public class BoardPane extends Pane {
             }
         }
 
+        /**
+         * Cancels the current move
+         */
         public void cancelMove() {
             pane.getCallbacksHandler().onMoveCancelled();
             resetSelection();
         }
 
+        /**
+         * Resets the selection
+         */
         private void resetSelection() {
             start = null;
             end = null;

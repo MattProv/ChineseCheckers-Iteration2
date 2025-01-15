@@ -7,13 +7,18 @@ import org.example.server.Server;
 import org.example.server.ServerCallbacksHandler;
 import org.example.server.ServerConnection;
 
+/**
+ * Main class for the server.
+ */
 public class ServerMain {
     public static void main(final String[] args) {
 
         System.out.println("Hello World from Server!");
 
+        // Create the game manager
         GameManager gameManager = GameManager.create();
 
+        // Create the server and add server callbacks
         Server server = Server.create();
         server.serverCallbacksHandler = new ServerCallbacksHandler() {
             @Override
@@ -24,8 +29,10 @@ public class ServerMain {
             }
         };
 
+        // Set default board
         gameManager.setBoard(new StandardBoard());
 
+        // Add message handlers
         server.AddHandler(new MoveMessageHandler(gameManager));
         server.AddHandler(new CommandMessageHandler(gameManager));
         server.AddHandler(new UsernameMessageHandler(gameManager));

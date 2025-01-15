@@ -7,6 +7,10 @@ import org.example.client.GUI.GameScreen;
 import org.example.game_logic.Board;
 import org.example.game_logic.StandardBoard;
 
+/**
+ * Entry point for the client application.
+ * This class is used to test the GUI of the game.
+ */
 public class TestGUI extends Application {
 
     @Override

@@ -1,5 +1,8 @@
 package org.example.message;
 
+/**
+ * Enum class containing the commands that can be sent between the server and the client
+ */
 public enum Commands {
     SET_PLAYER_COUNT(2),
     START_GAME(1);

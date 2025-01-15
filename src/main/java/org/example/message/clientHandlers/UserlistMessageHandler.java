@@ -7,6 +7,9 @@ import org.example.message.MessageSenderPair;
 import org.example.message.MessageType;
 import org.example.message.UserlistMessage;
 
+/**
+ * Message handler used to properly display the userlist
+ */
 public class UserlistMessageHandler extends MessageHandler {
     private final LobbyScreen lobbyScreen;
     private final GameScreen gameScreen;

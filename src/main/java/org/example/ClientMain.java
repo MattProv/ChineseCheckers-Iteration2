@@ -10,6 +10,9 @@ import org.example.message.clientHandlers.GameStateMessageHandler;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Obsolete: this class is not used in the final project.
+ */
 public class ClientMain {
 
     public static void main(final String[] args) {

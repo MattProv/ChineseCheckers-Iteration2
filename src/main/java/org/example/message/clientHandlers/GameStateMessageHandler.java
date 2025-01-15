@@ -7,6 +7,9 @@ import org.example.message.MessageHandler;
 import org.example.message.MessageSenderPair;
 import org.example.message.MessageType;
 
+/**
+ * Message handler for the GameStateMessage
+ */
 public class GameStateMessageHandler extends MessageHandler {
 
     private final GameState gameState;

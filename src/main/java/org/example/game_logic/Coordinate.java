@@ -4,7 +4,11 @@ package org.example.game_logic;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Class used to represent a coordinate on the board
+ */
 public class Coordinate implements Serializable {
+    // the x and y coordinates
     private final int x;
     private final int y;
 

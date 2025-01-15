@@ -2,6 +2,9 @@ package org.example.client;
 
 import org.example.message.Commands;
 
+/**
+ * Abstract class for processing text-input commands
+ */
 public abstract class CommandProcessor {
 
     public static boolean processInput(String[] input) {

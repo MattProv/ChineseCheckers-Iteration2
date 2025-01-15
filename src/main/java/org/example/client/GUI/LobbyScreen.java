@@ -16,13 +16,21 @@ import org.example.game_logic.RulesType;
 import java.util.Arrays;
 import java.util.Objects;
 
-// TODO: Add variants selecting
+/**
+ * Lobby screen used to display the lobby and game options
+ */
 public class LobbyScreen extends BorderPane {
 
+    /**
+     * Callbacks handler used to handle the user input
+     */
     public void setCallbacksHandler(CallbacksHandler callbacksHandler) {
         this.callbacksHandler = callbacksHandler;
     }
 
+    /**
+     * Callbacks handler used to handle the user input
+     */
     public abstract static class CallbacksHandler {
         public abstract void onGameStart();
         public abstract void onChangePlayerCount(int playerCount);
@@ -32,14 +40,20 @@ public class LobbyScreen extends BorderPane {
         public abstract void onChangeRulesType(RulesType rulesType);
     }
 
+    // Callbacks handler used to handle the user input
     private CallbacksHandler callbacksHandler;
 
+    // GUI elements used to display the lobby
     private final VBox usersList;
     private final Label serverMessage;
+
+    /**
+     * Generates the lobby screen
+     */
     public LobbyScreen() {
         super();
 
-        //userlist
+        // generate the userlist
         usersList = new VBox();
         Label usersListLabel = new Label("Users");
 
@@ -47,12 +61,15 @@ public class LobbyScreen extends BorderPane {
         usersListWrapper.setMinWidth(100);
         usersListWrapper.setPadding(new Insets(10, 10, 10, 10));
 
-        //options
+        // SETTINGS
+        // generate the options
         GridPane options = new GridPane();
         options.setAlignment(Pos.CENTER);
         options.setHgap(10);
         options.setVgap(10);
         options.setPadding(new Insets(10, 10, 10, 10));
+
+        // player count
 
         Label playerCountLabel = new Label("Player count");
         TextField playerCountField = new TextField();
@@ -66,6 +83,8 @@ public class LobbyScreen extends BorderPane {
                 callbacksHandler.onError("Invalid player count");
             }
         });
+
+        // board type
 
         Label boardTypeLabel = new Label("Board type");
         ObservableList<String> boardTypes = FXCollections.observableArrayList(Arrays.stream(BoardType.values()).map(Enum::name).toArray(String[]::new));
@@ -81,6 +100,8 @@ public class LobbyScreen extends BorderPane {
             }
         });
 
+        // rules type
+
         Label rulesTypeLabel = new Label("Rules type");
         ObservableList<String> rulesTypes = FXCollections.observableArrayList(Arrays.stream(RulesType.values()).map(Enum::name).toArray(String[]::new));
         ComboBox<String> rulesTypeComboBox = new ComboBox<>(rulesTypes);
@@ -95,6 +116,8 @@ public class LobbyScreen extends BorderPane {
             }
         });
 
+        // add elements to the grid
+
         options.add(playerCountLabel, 0, 0);
         options.add(playerCountField, 1, 0);
         options.add(updatePlayerCountButton, 2, 0);
@@ -106,6 +129,8 @@ public class LobbyScreen extends BorderPane {
         options.add(rulesTypeLabel, 0, 2);
         options.add(rulesTypeComboBox, 1, 2);
         options.add(updateRulesTypeButton, 2, 2);
+
+        // buttons
 
         Button startGameButton = new Button("Start game");
         startGameButton.setOnAction(e -> callbacksHandler.onGameStart());
@@ -129,6 +154,10 @@ public class LobbyScreen extends BorderPane {
         setBottom(serverMessage);
     }
 
+    /**
+     * Sets the users list
+     * @param users the users list
+     */
     public void setUsersList(String[] users) {
         Platform.runLater(() -> {
             usersList.getChildren().clear();
@@ -138,6 +167,10 @@ public class LobbyScreen extends BorderPane {
         });
     }
 
+    /**
+     * Sets the server message
+     * @param message the message
+     */
     public void showServerMessage(String message) {
         Platform.runLater(() ->serverMessage.setText(message));
     }

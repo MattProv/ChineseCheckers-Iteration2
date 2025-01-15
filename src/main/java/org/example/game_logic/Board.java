@@ -16,7 +16,6 @@ public abstract class Board implements Serializable, Cloneable {
     private Map<Integer, Set<Node>> Bases = new HashMap<>();
     private Map<Node, Pawn> Pawns = new HashMap<>();
 
-
     public Map<Integer, Set<Node>> getBases() {
         return Bases;
     }

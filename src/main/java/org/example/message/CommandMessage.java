@@ -2,6 +2,9 @@ package org.example.message;
 
 import java.util.Arrays;
 
+/**
+ * Message class used to send preprogrammed commands between the server and the client
+ */
 public final class CommandMessage extends Message {
     private final Commands command;
     private final String[] message;

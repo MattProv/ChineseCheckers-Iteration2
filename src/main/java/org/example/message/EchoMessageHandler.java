@@ -3,6 +3,9 @@ package org.example.message;
 import org.example.server.Server;
 import org.example.server.ServerConnection;
 
+/**
+ * Message handler for echoing any string messages back to the sender.
+ */
 public final class EchoMessageHandler extends MessageHandler {
     public EchoMessageHandler() {
         super(MessageType.STRING);

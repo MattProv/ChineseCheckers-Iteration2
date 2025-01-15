@@ -12,8 +12,14 @@ import org.example.Config;
 
 import java.util.Objects;
 
+/**
+ * Class used to display the login screen
+ */
 public class LoginScreen extends BorderPane {
 
+    /**
+     * Interface used to handle the callbacks of the login screen
+     */
     public abstract static class CallbacksHandler {
         public void onConnect(String username, String ip, int port)
         {
@@ -38,26 +44,34 @@ public class LoginScreen extends BorderPane {
         }
     }
 
+    // Callbacks handler
     private CallbacksHandler callbacksHandler;
 
+    /**
+     * Generate the login screen
+     */
     public LoginScreen() {
         super();
 
         GridPane gridPane = new GridPane();
 
+        // Uesrname prompt
         Label usernameLabel = new Label("Username");
         TextField usernameTextField = new TextField();
         usernameTextField.setPromptText("Enter your username");
 
+        // IP prompt
         Label ipLabel = new Label("Server IP");
         TextField ipTextField = new TextField();
         ipTextField.setPromptText("Enter server IP");
 
+        // Port prompt
         Label portLabel = new Label("Server Port");
         TextField portTextField = new TextField();
         portTextField.setPromptText("Enter server port");
         portTextField.setText(Integer.toString(Config.PORT));
 
+        // Connect button
         Button connectButton = new Button("Connect");
         connectButton.setOnAction(ActionEvent -> {
             String username = usernameTextField.getText();
@@ -96,12 +110,14 @@ public class LoginScreen extends BorderPane {
             callbacksHandler.onConnect(username, ip, port);
         });
 
+        // Set up the grid pane
         gridPane.setMinSize(300, 300);
         gridPane.setVgap(5);
         gridPane.setHgap(5);
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setAlignment(Pos.CENTER);
 
+        // Add the elements to the grid pane
         gridPane.add(usernameLabel, 0, 0);
         gridPane.add(usernameTextField, 1, 0);
         gridPane.add(ipLabel, 0, 1);
@@ -119,6 +135,10 @@ public class LoginScreen extends BorderPane {
 
     }
 
+    /**
+     * Set the callbacks handler
+     * @param callbacksHandler the callbacks handler
+     */
     public void setCallbacksHandler(CallbacksHandler callbacksHandler)
     {
         this.callbacksHandler = callbacksHandler;

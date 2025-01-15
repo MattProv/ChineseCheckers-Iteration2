@@ -2,8 +2,11 @@ package org.example.message;
 
 import org.example.game_logic.RulesType;
 
+/**
+ * Message class used to send the ruleset type between the server and the client
+ */
 public class RulesTypeMessage extends Message {
-    private RulesType rulesetType;
+    private final RulesType rulesetType;
 
     public RulesTypeMessage(RulesType rulesetType) {
         super(MessageType.RULES_TYPE);
@@ -12,10 +15,6 @@ public class RulesTypeMessage extends Message {
 
     public RulesType getRulesetType() {
         return rulesetType;
-    }
-
-    public void setRulesetType(RulesType rulesetType) {
-        this.rulesetType = rulesetType;
     }
 
     @Override

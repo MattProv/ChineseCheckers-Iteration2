@@ -3,12 +3,13 @@ package org.example.server;
 import org.example.message.Message;
 import org.example.message.MessageType;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
- * ConnectionThread class used to handle the connection with client on the server
- * and send/receive messages
+ * Class representing a connection to a client
  */
 public class ServerConnection implements Runnable
 {
@@ -23,9 +24,8 @@ public class ServerConnection implements Runnable
     private Thread listenerThread;
 
     /**
-     * Constructor for the ConnectionThread class
-     * Sets the values, creates the output and input streams and starts the listener thread
-     * @param socket the socket used to connect to the client
+     * Constructor for the ServerConnection class.
+     * @param socket The socket used to connect to the client.
      */
     ServerConnection(final Socket socket)
     {

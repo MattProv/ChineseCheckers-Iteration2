@@ -1,7 +1,11 @@
 package org.example.message;
 
+/**
+ * Message class used to send the userlist message between the server and the client
+ */
 public class UserlistMessage extends Message {
-    private final String[] message; // the message content
+    // the list of users
+    private final String[] message;
 
     public UserlistMessage(final String[] users)
     {

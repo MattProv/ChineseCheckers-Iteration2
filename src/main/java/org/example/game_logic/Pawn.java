@@ -2,7 +2,7 @@ package org.example.game_logic;
 
 import java.io.Serializable;
 
-public class Pawn implements Serializable {
+public class Pawn implements Serializable, Cloneable {
     int id;
     private Agent owner;
     private boolean isBaseLocked = false;
@@ -34,6 +34,13 @@ public class Pawn implements Serializable {
 
     public Agent getOwner() {
         return owner;
+    }
+
+    @Override
+    public Pawn clone() throws CloneNotSupportedException {
+        Pawn pawn = (Pawn) super.clone();
+        pawn.isBaseLocked = this.isBaseLocked;
+        return pawn;
     }
 
 }

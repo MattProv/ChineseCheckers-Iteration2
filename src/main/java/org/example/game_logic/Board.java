@@ -75,9 +75,26 @@ public abstract class Board implements Serializable, Cloneable {
     @Override
     public Board clone() throws CloneNotSupportedException {
         Board cloned = (Board) super.clone();
-        cloned.Nodes = new HashMap<>(Nodes);
-        cloned.Bases = new HashMap<>(Bases);
-        cloned.Pawns = new HashMap<>(Pawns);
+        cloned.Pawns = new HashMap<>();
+        for (Map.Entry<Node, Pawn> entry : this.Pawns.entrySet()) {
+            cloned.Pawns.put(entry.getKey().clone(), entry.getValue().clone());
+        }
+
+        // Deep copy of Nodes map
+        cloned.Nodes = new HashMap<>();
+        for (Map.Entry<Coordinate, Node> entry : this.Nodes.entrySet()) {
+            cloned.Nodes.put(entry.getKey(), entry.getValue().clone());
+        }
+
+        // Deep copy of Bases map
+        cloned.Bases = new HashMap<>();
+        for (Map.Entry<Integer, Set<Node>> entry : this.Bases.entrySet()) {
+            Set<Node> clonedSet = new HashSet<>();
+            for (Node node : entry.getValue()) {
+                clonedSet.add(node.clone());
+            }
+            cloned.Bases.put(entry.getKey(), clonedSet);
+        }
         return cloned;
     }
 }

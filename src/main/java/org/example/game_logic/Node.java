@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Node implements Serializable {
+public class Node implements Serializable, Cloneable {
     private List<Node> neighbours = new ArrayList<>();
     private Coordinate coordinate;
     private boolean isOccupied;
@@ -98,6 +98,15 @@ public class Node implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(coordinate); // Hash using the coordinate object
+    }
+
+    @Override
+    public Node clone() throws CloneNotSupportedException {
+        Node cloned = (Node) super.clone();
+        cloned.isOccupied = this.isOccupied;
+        if(this.occupant != null)
+            cloned.occupant = this.occupant.clone();
+        return cloned;
     }
 
 
